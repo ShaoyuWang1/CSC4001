@@ -3,7 +3,7 @@ import Home from './views/Home.vue'
 import Homepage from './views/list/homepage.vue' 
 import Market from './views/list/Market.vue' 
 import Table from './views/list/Table.vue'
-
+import WorkPanel from './views/list/WorkPanel.vue'
 let routes = [
     {
         path: '/login',
@@ -29,6 +29,16 @@ let routes = [
         iconCls: 'el-icon-shopping-bag-2', //图标样式class
         children: [
             { path: '/Market', component: Market, name: '翻译市场' },
+        ]
+    },
+    {
+        path: '/',
+        component: Home,
+        name: '工作台',
+        leaf: true,
+        iconCls: 'el-icon-s-platform', 
+        children: [
+            { path: '/Panel', component: WorkPanel, name: '工作台' }
         ]
     },
     {

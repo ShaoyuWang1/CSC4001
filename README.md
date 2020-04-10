@@ -1,6 +1,5 @@
-# meadia-manage
-
-> A Vue.js project
+# WeTrans FrontEnd
+> The frontend of the WeTrans Platform
 
 ## Build Setup
 
