@@ -17,15 +17,24 @@
 		</el-col>
         <el-col :span="24" class="main">
             <aside>
-                <el-menu :default-active="$route.path" class="el-menu el-menu-vertical-demo" @select="handleselect"
+                <el-menu :default-active="$route.path" class="el-menu el-menu-vertical-demo"
                         unique-opened router >
-                        <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
-						<el-submenu :index="index+''" v-if="!item.leaf">
-							<template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
-							<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
-						</el-submenu>
-						<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
-					</template>
+						
+						<template v-for="(item,index) in $router.options.routes">
+						<template v-if="!item.hidden">
+							<el-submenu v-bind:key="index" :index="index+''" v-if="!item.leaf">
+								<template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
+								<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" >
+									<template v-if="!child.hidden">
+										{{child.name}}
+									</template>
+								</el-menu-item>
+							</el-submenu>
+							<template v-if="item.leaf&&item.children.length>0">
+								<el-menu-item v-bind:key="index" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
+							</template>
+						</template>
+						</template>
                 </el-menu>
             </aside>
 			<section class="content-container">
@@ -64,19 +73,22 @@ export default {
 			}
         },
     methods: {
-			//退出登录
-			logout: function () {
-				var _this = this;
-				this.$confirm('确认退出吗?', '提示', {
-					//type: 'warning'
-				}).then(() => {
-					sessionStorage.removeItem('user');
-					_this.$router.push('/login');
-				}).catch(() => {
+		//退出登录
+		logout: function () {
+			var _this = this;
+			this.$confirm('确认退出吗?', '提示', {
+				//type: 'warning'
+			}).then(() => {
+				sessionStorage.removeItem('user');
+				_this.$router.push('/login');
+			}).catch(() => {
 
-				});
-			}
+			});
 		},
+		handleSelect(key, keyPath) {
+			console.log(key, keyPath);
+		}
+	},
     mounted() {
 			var user = sessionStorage.getItem('user');
 			if (user) {

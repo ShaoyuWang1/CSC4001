@@ -42,6 +42,9 @@ export default {
       textarea2: '',
       translate_text:'需要翻译的文本在这里显示'
     }
+  },
+  mounted(){
+    this.trans_id = this.$route.trans_id
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
 <div>
 <el-row>
-   <el-row><el-avatar :size="200" :src="circleUrl"></el-avatar></el-row>
+   <el-row><el-avatar :size="200" :src="avatarURL"></el-avatar></el-row>
    <el-row>
       基础信息
       <el-col>
@@ -73,7 +73,13 @@
 </template>
 
 <script>
+import { getAllJobs } from '../../api/api';
   export default {
+
+    mounted(){
+      this.getJobs()
+    },
+    
     methods: {
       handleClick(row) {
         console.log(row);
@@ -83,7 +89,28 @@
       },
       handleCurrentChange(val) {
         this.currentRow = val;
-      }
+      },
+      continueEditing(id){
+
+      },
+      getJobs(){
+        var that = this
+        var user = sessionStorage.getItem('user');
+        let uid = user.id
+        getAllJobs(uid).then(data =>{
+          let { msg, code, jobs } = data;
+          if (code !== 200) {
+              this.$message({
+                message: msg,
+                type: 'error'
+              });
+            } else {
+              that.tableData = jobs
+              console.log(jobs)
+            }
+          });
+      },
+      
     },
 
     data() {
@@ -118,6 +145,7 @@
           status: '进行中',
         }],
         currentRow: null,
+        user:null,
         percentage: 10,
         colors: [
           {color: '#f56c6c', percentage: 20},
@@ -125,7 +153,8 @@
           {color: '#5cb87a', percentage: 60},
           {color: '#1989fa', percentage: 80},
           {color: '#6f7ad3', percentage: 100}
-        ]
+        ],
+        avatarURL:null,
       }
     }
   }
