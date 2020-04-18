@@ -18,7 +18,10 @@ let routes = [
         leaf: true,//只有一个节点
         iconCls: 'el-icon-menu', //图标样式class
         children: [
-            { path: '/homepage', component: Homepage, name: '个人首页' },
+            
+            { path: '/homepage', component: Homepage, name: 'HomePage' ,meta: {
+                keepAlive: true // 需要被缓存
+            }},
         ]
     },
     {
@@ -28,7 +31,7 @@ let routes = [
         leaf: true,//只有一个节点
         iconCls: 'el-icon-shopping-bag-2', //图标样式class
         children: [
-            { path: '/Market', component: Market, name: '翻译市场' },
+            { path: '/market', component: Market, name: 'Market' },
         ]
     },
     {
@@ -38,7 +41,7 @@ let routes = [
         leaf: true,
         iconCls: 'el-icon-s-platform', 
         children: [
-            { path: '/Panel', component: WorkPanel, name: '工作台' }
+            { path: '/panel', component: WorkPanel, name: 'Panel' }
         ]
     },
     {
@@ -48,7 +51,7 @@ let routes = [
         // leaf: true,//只有一个节点
         iconCls: 'el-icon-message', //图标样式class
         children: [
-            { path: '/table', component: Table, name: '子菜单01' }
+            { path: '/table', component: Table, name: 'table01' }
         ]
     }
 ];

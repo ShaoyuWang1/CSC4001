@@ -3,7 +3,7 @@
     <el-row :gutter="40">
         <el-col :span="8">
             <div class="grid-content tx-back">
-                {{translate_text}}
+                {{content}}
             </div>
         </el-col>
         <el-col :span="12">
@@ -12,14 +12,14 @@
                     type="textarea"
                     autosize
                     placeholder="标题内容"
-                    v-model="textarea1">
+                    v-model="translate_title">
                     </el-input>
                     <div style="margin: 20px 0; wk-back"></div>
                         <el-input
                         type="textarea"
                         :autosize="{ minRows: 4, maxRows: 16}"
                         placeholder="文本内容"
-                        v-model="textarea2">
+                        v-model="translate_text">
                     </el-input>
             <el-row>
                 <el-button type="primary" icon="el-icon-upload">上传</el-button>
@@ -35,16 +35,39 @@
 
 
 <script>
+import { getOneJob } from '../../api/api';
 export default {
   data() {
     return {
-      textarea1: '',
-      textarea2: '',
-      translate_text:'需要翻译的文本在这里显示'
+      content:'',
+      translate_text: '',
+      translate_title:'',
     }
   },
   mounted(){
-    this.trans_id = this.$route.trans_id
+    this.id = this.$route.params.id
+    this.getOneJob(this.id)
+  },
+  methods:{
+    getOneJob(id){
+        var that = this
+        var Params = {job_id: id}
+        // console.log(Params)
+        getOneJob(Params).then(data =>{
+          let { msg, code, one_job } = data;
+          if (code !== 200) {
+              this.$message({
+                message: msg,
+                type: 'error'
+              });
+            } else {
+              let {abstract,content,date,ddl,title,translate_title,translate_text} = one_job
+              this.content = content
+              this,translate_title = translate_title
+              this.translate_text = translate_text
+            }
+          });
+      },
   }
 }
 </script>

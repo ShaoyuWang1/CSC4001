@@ -64,10 +64,11 @@
       label="操作">
       <template slot-scope="scope">
         <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-        <el-button type="text" size="small">继续编辑</el-button>
+        <el-button @click="continue_editing(scope.$index, tableData)" type="text" size="small">继续编辑</el-button>
       </template>
     </el-table-column>
   </el-table>
+  <!-- <el-button @click="getJobs()" type="text" size="small">测试一下</el-button> -->
    </el-row>
 </div>
 </template>
@@ -75,7 +76,7 @@
 <script>
 import { getAllJobs } from '../../api/api';
   export default {
-
+    
     mounted(){
       this.getJobs()
     },
@@ -94,11 +95,15 @@ import { getAllJobs } from '../../api/api';
 
       },
       getJobs(){
-        var that = this
         var user = sessionStorage.getItem('user');
+        user = JSON.parse(user);
         let uid = user.id
-        getAllJobs(uid).then(data =>{
+        var that = this
+        var Params = {user_id: uid}
+        // console.log(Params)
+        getAllJobs(Params).then(data =>{
           let { msg, code, jobs } = data;
+          // console.log(jobs)
           if (code !== 200) {
               this.$message({
                 message: msg,
@@ -106,44 +111,25 @@ import { getAllJobs } from '../../api/api';
               });
             } else {
               that.tableData = jobs
-              console.log(jobs)
+              // console.log(jobs)
             }
           });
       },
+      continue_editing(index, data){
+        let id = data[index].id
+        // console.log('id', id)
+        this.$router.push({ name: 'Panel', params: { id: id }})
+      },
+      filterHandler(value, row, column) {
+        const property = column['property'];
+        return row[property] === value;
+      }
       
     },
 
     data() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          ddl:"2017-05-02",
-          title: '翻译任务',
-          abstract:'这个任务是要做些blabla',
-          fee:6,
-          status: '进行中',
-        },{
-          date: '2016-05-02',
-          ddl:"2017-05-02",
-          title: '翻译任务',
-          abstract:'这个任务是要做些blabla',
-          fee:6,
-          status: '进行中',
-        },{
-          date: '2016-05-04',
-          ddl:"2017-05-04",
-          title: '翻译任务',
-          abstract:'这个任务是要做些blabla',
-          fee:6,
-          status: '进行中',
-        },{
-          date: '2016-05-03',
-          ddl:"2017-05-03",
-          title: '翻译任务',
-          abstract:'这个任务是要做些blabla',
-          fee:6,
-          status: '进行中',
-        }],
+        tableData: [],
         currentRow: null,
         user:null,
         percentage: 10,

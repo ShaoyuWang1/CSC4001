@@ -40,11 +40,14 @@ export default {
 
     mock.onPost('/getAllJobs').reply(config =>{
       let {user_id} = JSON.parse(config.data)
+      // console.log(config.data)
+      // console.log(user_id)
       return new Promise((resolve, reject) => {
         let jobs = null;
         setTimeout(() => {
-          var arrs = Jobs.filter(job=>job.uid === user_id);
-          if (arrs === null || arrs.length === 0){
+          // console.log(Jobs)
+          jobs = Jobs.filter(job=>job.uid === user_id);
+          if (jobs === null || jobs.length === 0){
             resolve([200, { code: 500, msg: '未搜索到记录' }]);
           } else {
             resolve([200, { code: 200, msg: '请求成功', jobs}]);
@@ -55,6 +58,7 @@ export default {
 
     mock.onPost('/getOneJob').reply(config =>{
       let {job_id} = JSON.parse(config.data)
+      console.log(config.data)
       return new Promise((resolve, reject) => {
         let one_job = null;
         setTimeout(() => {
@@ -62,7 +66,7 @@ export default {
           if (arrs === null || arrs.length === 0){
             resolve([200, { code: 500, msg: '未搜索到记录' }]);
           } else {
-            job = JSON.parse(JSON.stringify(arrs[0]));
+            one_job = JSON.parse(JSON.stringify(arrs[0]));
             resolve([200, { code: 200, msg: '请求成功', one_job}]);
           }
         }, 1000);
