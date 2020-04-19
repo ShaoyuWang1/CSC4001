@@ -1,51 +1,18 @@
 <template>
     <div>
-       <el-table
-    :data="tableData"
-    style="width: 100%">
-    <el-table-column type="expand">
-      <template slot-scope="props">
-        <el-form label-position="left" inline class="demo-table-expand">
-          <el-form-item label="商品名称">
-            <span>{{ props.row.name }}</span>
-          </el-form-item>
-          <el-form-item label="所属店铺">
-            <span>{{ props.row.shop }}</span>
-          </el-form-item>
-          <el-form-item label="商品 ID">
-            <span>{{ props.row.id }}</span>
-          </el-form-item>
-          <el-form-item label="店铺 ID">
-            <span>{{ props.row.shopId }}</span>
-          </el-form-item>
-          <el-form-item label="商品分类">
-            <span>{{ props.row.category }}</span>
-          </el-form-item>
-          <el-form-item label="店铺地址">
-            <span>{{ props.row.address }}</span>
-          </el-form-item>
-          <el-form-item label="商品描述">
-            <span>{{ props.row.desc }}</span>
-          </el-form-item>
-        </el-form>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="商品 ID"
-      prop="id">
-    </el-table-column>
-    <el-table-column
-      label="商品名称"
-      prop="name">
-    </el-table-column>
-    <el-table-column
-      label="描述"
-      prop="desc">
-    </el-table-column>
-  </el-table>
-  <el-input v-model="input" placeholder="请输入内容"></el-input>
+
+    <el-container>
+    <el-header>{{input}}</el-header>
+    <el-main>
+        <el-container>
+        <el-header><el-checkbox v-model="checked">备选项</el-checkbox></el-header>
+        <el-main>Main</el-main>
+        </el-container>
+    </el-main>
+    <el-footer>Footer</el-footer>
+    </el-container>
     </div>
-</template>
+</template> 
 
 
 <script>
@@ -106,18 +73,38 @@ export default {
 </script>
 
 
-
 <style>
-  .demo-table-expand {
-    font-size: 0;
+  .el-header, .el-footer {
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
   }
-  .demo-table-expand label {
-    width: 90px;
-    color: #99a9bf;
+  
+  .el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 200px;
   }
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 50%;
+  
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    text-align: center;
+    line-height: 160px;
+  }
+  
+  body > .el-container {
+    margin-bottom: 40px;
+  }
+  
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+  
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
   }
 </style>
