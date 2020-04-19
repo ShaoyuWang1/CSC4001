@@ -72,5 +72,19 @@ export default {
         }, 1000);
       });
     })
+
+    
+
+    mock.onPost('/getTest').reply(config =>{
+      return new Promise((resolve, reject) => {
+        var test_text = 'abcd'
+        setTimeout(() => {
+          resolve([200, { code: 200, msg: '请求成功', test_text}]);
+          
+        }, 1000);
+      });
+    })
+
+
   }
 };

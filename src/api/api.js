@@ -25,3 +25,6 @@ export const addUser = params => { return axios.get(`${base}/user/add`, { params
 // jobs related
 export const getOneJob = params => { return axios.post(`${base}/getOneJob`, params).then(res => res.data); };
 export const getAllJobs = params => { return axios.post(`${base}/getAllJobs`, params).then(res => res.data); };
+
+// test
+export const getTest = params => { return axios.post(`${base}/getTest`, params).then(res => res.data); };
