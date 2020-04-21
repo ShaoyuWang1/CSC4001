@@ -1,20 +1,14 @@
-# WeTrans FrontEnd
-> The frontend of the WeTrans Platform
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+WeTrans
+-------
+# FrontEnd
+- Frontend use Vue-Cli webpack + Element UI
+# BackEnd
+- Backend use Django
+# Documentation
+The documentation of WeTrans use Hugo.
+- Installation in Mac( cuz all of us using Mac:)...): 
+  - brew install hugo
+- Run:
+  - cd to the root
+  - hugo server --minify --theme book
+  
