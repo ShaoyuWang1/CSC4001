@@ -31,7 +31,6 @@ Django is a MVT framework.
 - T: template. The view and the data binder.
 
 
-
 ### Notice
 Note that when using this xadmin, an error would occur
 

@@ -18,7 +18,11 @@ from django.urls import path
 import xadmin
 from django.views.generic import TemplateView
 
+# 
+from Backend import views
+
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
-    path('', TemplateView.as_view(template_name="index.html"))
+    path('', TemplateView.as_view(template_name="index.html")),
+    path('getOneJob/', views.getOneJob)
 ]
