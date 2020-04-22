@@ -6,6 +6,7 @@ import json
 #
 from .models import Jobs
 # Create your views here.
+# API = URL + inner function
 @csrf_exempt
 def getOneJob(request):
     job_id = request.POST.get('job_id')
@@ -25,5 +26,6 @@ def postOneJob(request):
     ddl = request.POST.get('ddl')
     content = request.POST.get('content')
     fee = request.POST.get('fee')
+    # judge hasn't mentioned
     Jobs.objects.create(title=title,abstract=abstract,date=date,ddl=ddl,content=content,fee=fee)
     return JsonResponse({"code": 200, "msg": 'SUC'})

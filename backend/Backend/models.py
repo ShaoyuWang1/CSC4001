@@ -16,3 +16,7 @@ class Jobs(models.Model):
     fee = models.DecimalField(decimal_places=2, max_digits=10)
     translate_title = models.TextField(max_length=1024, default="")
     translate_text = models.TextField(max_length=1024, default="")
+
+
+class Trans(models.Model):
+    tid = models.IntegerField(primary_key=True)

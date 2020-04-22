@@ -23,7 +23,7 @@ class JobAdmin(object):
                 "series":{"bars":{"align":"center", "barWidth":0.8, "show":True}}
             }
         },
-        "fee_count_num":{'title':'订单金额',"x-field":'date', "y-field":('fee',),"order":('date',)},
+        # "fee_count_num":{'title':'订单金额',"x-field":'date', "y-field":('fee',),"order":('date',)},
     }
 
 xadmin.site.register(Jobs, JobAdmin)

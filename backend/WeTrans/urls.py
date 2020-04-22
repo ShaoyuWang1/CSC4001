@@ -18,7 +18,7 @@ from django.urls import path
 import xadmin
 from django.views.generic import TemplateView
 
-# 
+# import inner function
 from backend import views
 
 urlpatterns = [
