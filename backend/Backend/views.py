@@ -9,8 +9,21 @@ from .models import Jobs
 @csrf_exempt
 def getOneJob(request):
     job_id = request.POST.get('job_id')
-    print(job_id)
     job_list = Jobs.objects.filter(jid__icontains=job_id)
     one_job = job_list.values_list()[0]
-    print(one_job)
-    return JsonResponse({"code": 200, "msg": '请求成功', "one_job":one_job})
+    if one_job:
+        return JsonResponse({"code": 200, "msg": '请求成功', "one_job":one_job})
+    else:
+        return JsonResponse({"code": 400, "msg": '未查询到记录', "one_job":one_job})
+
+@csrf_exempt
+def postOneJob(request):
+    uid = request.POST.get('uid')
+    title = request.POST.get('title')
+    abstract = request.POST.get('abstract')
+    date = request.POST.get('date')
+    ddl = request.POST.get('ddl')
+    content = request.POST.get('content')
+    fee = request.POST.get('fee')
+    Jobs.objects.create(title=title,abstract=abstract,date=date,ddl=ddl,content=content,fee=fee)
+    return JsonResponse({"code": 200, "msg": 'SUC'})
