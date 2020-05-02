@@ -1,10 +1,11 @@
 from django.contrib import admin
 from .models import Jobs
+from .models import User
 import xadmin
 # Register your models here.
 class JobAdmin(object):
     # 用户管理的图标， 默认是圆圈，丑
-    model_icon = 'fa fa-home'
+    model_icon = 'fa fa-home' #icons 地址：
     # 显示的列，对应model相应字段名
     list_display = ['jid', 'title', 'abstract', 'date', 'ddl', 'content', 'fee', 'translate_title', 'translate_text']
     # 过滤器，用于查找，这是xadmin的强大之处
@@ -23,7 +24,22 @@ class JobAdmin(object):
                 "series":{"bars":{"align":"center", "barWidth":0.8, "show":True}}
             }
         },
-        # "fee_count_num":{'title':'订单金额',"x-field":'date', "y-field":('fee',),"order":('date',)},
+        "fee_count_num":{'title':'订单金额',"x-field":'date', "y-field":('fee',),"order":('date',)},
     }
 
+
+
+class UserAdmin(object):
+    # 用户管理的图标， 默认是圆圈，丑
+    model_icon = 'glyphicon glyphicon-paperclip'
+    list_display = ['username']
+    list_filter = ['username']
+    search_fields = ['username']
+
+    # 每页显示的数据行数
+    list_per_page = 20
+
+
+
 xadmin.site.register(Jobs, JobAdmin)
+xadmin.site.register(User, UserAdmin)

@@ -18,12 +18,17 @@ from django.urls import path
 import xadmin
 from django.views.generic import TemplateView
 
-# import inner function
+#
 from backend import views
 
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
     path('', TemplateView.as_view(template_name="index.html")),
     path('getOneJob/', views.getOneJob),
-    path('postOneJob/', views.postOneJob)
+    path('postOneJob/', views.postOneJob),
+    path('deleteOneJob/', views.deleteOneJob),
+
+    path('getOneUser/', views.getOneUser),
+    path('postOneUser/', views.postOneUser),
+    path('deleteOneUser/', views.deleteOneUser),
 ]
