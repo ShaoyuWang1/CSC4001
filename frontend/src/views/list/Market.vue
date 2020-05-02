@@ -2,13 +2,13 @@
     <div>
     <el-row>
         <el-col :span="8">
-            <el-input
-            type="text"
+            <el-autocomplete
+            type="input"
             placeholder="输入搜索内容"
             v-model="text"
             maxlength="10"
             show-word-limit
-        ></el-input>
+        ></el-autocomplete>
         </el-col>
         <el-col :span="8">
             <el-button type="primary" icon="el-icon-search">搜索</el-button>
@@ -22,46 +22,58 @@
         </el-col> 
     </el-row>
 
+    
     <el-row>
-        <el-col :span="8" v-for="item in items" :key="item">
-        <el-card class="box-card">
-        <div slot="header" class="clearfix">
-            <span>{{item.title}}</span>
-            <el-button style="float: right; padding: 3px 0" type="text">接单!</el-button>
-        </div>
-        <div>
-            {{item.abstract}}
-        </div>
-        <div>
-            报酬:{{item.fee}}元
-        </div>
-        <div>
-            DDL:{{item.ddl}}
-        </div>
-        </el-card>
-    </el-col>
+      
+        <el-col :span="8" v-for="card in cards" :key="card">
+          <el-card class="box-card" shadow="hover">
+          <div slot="header" class="clearfix">
+              <span>{{card.title}}</span>
+              <el-popconfirm title="确定接单？" >
+                <el-button slot="reference" style="float: right; padding: 3px 0" type="text">接单!</el-button>
+              </el-popconfirm>
+          </div>
+          <div>
+              {{card.abstract}}
+          </div>
+          <div>
+              报酬:{{card.fee}}元
+          </div>
+          <div>
+              DDL:{{card.ddl}}
+          </div>
+            <el-tag v-for="label in card.labels" :key="label">
+              {{label}}
+            </el-tag>
+          </el-card>
+      </el-col>
+    
     </el-row>
+    
     </div>
 </template>
 
 
 <script>
+import { getCards } from '../../api/api';
 export default {
-    data: () => ({
-    items: [
-        // test data
-      { title: 'title_1', abstract: 'This is the translation abstract', fee:4 , ddl:"N月N号"},
-      { title: 'title_2', abstract: 'This is the translation abstract', fee:4 , ddl:"N月N号"},
-      { title: 'title_3', abstract: 'This is the translation abstract', fee:4 , ddl:"N月N号"},
-      { title: 'title_1', abstract: 'This is the translation abstract', fee:4 , ddl:"N月N号"},
-      { title: 'title_2', abstract: 'This is the translation abstract', fee:4 , ddl:"N月N号"},
-      { title: 'title_3', abstract: 'This is the translation abstract', fee:4 , ddl:"N月N号"},
-      { title: 'title_1', abstract: 'This is the translation abstract', fee:4 , ddl:"N月N号"},
-      { title: 'title_2', abstract: 'This is the translation abstract', fee:4 , ddl:"N月N号"},
-      { title: 'title_3', abstract: 'This is the translation abstract', fee:4 , ddl:"N月N号"},
-      
-    ]
-  }),
+    data() {
+      return {
+        text: '',
+        cards: []
+        }
+  },
+  mounted(){
+    this.getTheCards()
+  },
+  methods:{
+    getTheCards(){
+      let Params = null;
+      getCards(Params).then(data=>{
+        this.cards = data['cards'];
+      })
+    }
+  }
 }
 </script>
 
@@ -69,6 +81,8 @@ export default {
 
 
 <style>
+  
+
   .text {
     font-size: 14px;
   }
@@ -87,6 +101,7 @@ export default {
   }
 
   .box-card {
-    width: 480px;
+    width: 100%;
+    height: 220px;
   }
 </style>

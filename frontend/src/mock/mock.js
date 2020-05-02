@@ -2,6 +2,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import {LoginUsers} from './data/user';
 import {Jobs} from './data/job';
+import {Cards} from './data/MarketCards';
 
 export default {
   /**
@@ -80,6 +81,20 @@ export default {
         var test_text = 'abcd'
         setTimeout(() => {
           resolve([200, { code: 200, msg: '请求成功', test_text}]);
+          
+        }, 1000);
+      });
+    })
+
+
+    mock.onPost('/getCards').reply(config =>{
+      return new Promise((resolve, reject) => {
+        var cards = [];
+        console.log(Cards);
+        setTimeout(() => {
+          cards = JSON.parse(JSON.stringify(Cards));
+          console.log(cards)
+          resolve([200, { code: 200, msg: '请求成功', cards}]);
           
         }, 1000);
       });
