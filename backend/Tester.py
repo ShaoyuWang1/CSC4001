@@ -3,18 +3,19 @@ import datetime
 # test
 base = 'http://127.0.0.1:8000/'
 def testgetOneJob():
-    res = r.post(base + 'getOneJob/', {"job_id":1})
+    res = r.post(base + 'getOneJob/', {"job_id":3})
     print(res.text)
 
 
-def testdeleteOneJob():
-    res = r.post(base + 'deleteOneJob/', {"job_id": 1})
-    print(res.text)
+# def testdeleteOneJob():
+#     res = r.post(base + 'deleteOneJob/', {"job_id": 1})
+#     print(res.text)
+
 def testPostOneJob():
 
     paras = {
-        "uid":1,
-        "title": 'abbca',
+        "user_name":'wsy',
+        "title": '0503,09:11',
         "abstract":"absfwdadsad",
         "content":"asdasda",
         "date":datetime.date.today(),
@@ -25,30 +26,55 @@ def testPostOneJob():
     res = r.post(base + 'postOneJob/', paras)
     print(res.text)
 
-def testPostOneUser():
+def testRegisterOneUser():
     paras = {
-        'username':'wsy',
-        'password':'123456'
+        'user_name':'z',
+        'password':'123456',
+        'sex':"male",
+        'email':"2222@qq.com",
+        'age':21
+
 
     }
-    res = r.post(base + 'postOneUser/', paras)
+    res = r.post(base + 'registerOneUser/', paras)
     print(res.text)
 
 
 
-def testgetOneUser():
-    res = r.post(base + 'getOneUser/', {"id": 1})
+def testlogin():
+    res = r.post(base + 'login/', {"user_name": 'wsy',"password":"123456"})
     print(res)
     print(res.text)
 
 
-def testdeleteOneUser():
-    res = r.post(base + 'deleteOneUser/', {"id": 1})
+def testgetInfo():
+    res = r.post(base + 'getAllUserInfo/', {"user_name": 'w'})
+
     print(res.text)
 
-# testgetOneJob()
-# testPostOneJob()
-# testPostOneUser()
-# testdeleteOneJob()
-# testgetOneUser()
-# testdeleteOneUser()
+def testModify():
+    paras = {
+        'user_name':'ws',
+        'password':'123456',
+        'sex':"female",
+        'email':"2221@qq.com",
+        'age':21
+
+
+    }
+    res = r.post(base + 'modifyUserInfo/', paras)
+    print(res.text)
+
+# def testdeleteOneUser():
+#     res = r.post(base + 'deleteOneUser/', {"id": 1})
+#     print(res.text)
+
+# testgetOneJob() # done 5.2
+testPostOneJob() # done 5.2
+# testRegisterOneUser()
+
+#
+# testlogin() #done 5.2
+# testgetInfo() done 5.3
+
+# testModify()

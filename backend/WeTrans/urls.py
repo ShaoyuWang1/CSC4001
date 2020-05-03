@@ -26,9 +26,11 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html")),
     path('getOneJob/', views.getOneJob),
     path('postOneJob/', views.postOneJob),
-    path('deleteOneJob/', views.deleteOneJob),
 
-    path('getOneUser/', views.getOneUser),
-    path('postOneUser/', views.postOneUser),
-    path('deleteOneUser/', views.deleteOneUser),
+    path('login/', views.login),
+    path('registerOneUser/', views.registerOneUser),
+    path('getAllUserInfo/', views.getAllUserInfo),
+    path('modifyUserInfo/',views.modifyUserInfo)
+
+
 ]
