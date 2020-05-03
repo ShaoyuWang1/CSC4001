@@ -2,12 +2,17 @@ from django.db import models
 
 # Create your models here.
 class User(models.Model):
+    SEX = (
+        ('male', '男'),
+        ('female', '女')
+    )
+    uid = models.IntegerField(primary_key=True)
 
-    sex = models.CharField( max_length=50)
+    sex = models.CharField(choices=SEX,verbose_name='性别', max_length=50)
     age = models.IntegerField(verbose_name='年龄',default=18)
-    user_name = models.CharField(max_length=64,primary_key=True,default = "NONE")
+    user_name = models.CharField(max_length=64,unique=True)
     password = models.CharField(max_length=64)
-    email = models.CharField(max_length=64,default= "aaa@qq.com")
+    email = models.CharField(max_length=64)
 
     class Meta:
         verbose_name = 'User'  # 这个是修改增加xx 按钮名字

@@ -15,7 +15,7 @@ def testPostOneJob():
 
     paras = {
         "user_name":'wsy',
-        "title": '0503,00:49',
+        "title": '0503,09:11',
         "abstract":"absfwdadsad",
         "content":"asdasda",
         "date":datetime.date.today(),
@@ -70,11 +70,11 @@ def testModify():
 #     print(res.text)
 
 # testgetOneJob() # done 5.2
-# testPostOneJob() # done 5.2
+testPostOneJob() # done 5.2
 # testRegisterOneUser()
 
 #
 # testlogin() #done 5.2
 # testgetInfo() done 5.3
 
-testModify()
+# testModify()

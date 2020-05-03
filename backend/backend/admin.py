@@ -33,8 +33,8 @@ class UserAdmin(object):
     # 用户管理的图标， 默认是圆圈，丑
     model_icon = 'glyphicon glyphicon-paperclip'
     list_display = ['user_name']
-    list_filter = ['user_name']
-    search_fields = ['user_name']
+    list_filter = ['user_name',"sex","age"]
+    search_fields = ['user_name',"sex","age"]
 
     # 每页显示的数据行数
     list_per_page = 20
