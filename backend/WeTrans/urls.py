@@ -28,9 +28,12 @@ urlpatterns = [
     path('postOneJob/', views.postOneJob),
 
     path('login/', views.login),
-    path('registerOneUser/', views.registerOneUser),
+    path('register/', views.registerOneUser),
+    path('updateUserInfo/', views.updateUserInfo),
+
+
+
     path('getAllUserInfo/', views.getAllUserInfo),
-    path('modifyUserInfo/',views.modifyUserInfo)
 
 
 ]

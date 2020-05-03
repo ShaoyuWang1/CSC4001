@@ -8,8 +8,8 @@ class User(models.Model):
     )
     uid = models.IntegerField(primary_key=True)
 
-    sex = models.CharField(choices=SEX,verbose_name='性别', max_length=50)
-    age = models.IntegerField(verbose_name='年龄',default=18)
+    sex = models.CharField(choices=SEX,verbose_name='性别', max_length=50,null=True)
+    age = models.IntegerField(verbose_name='年龄',default=18,null=True)
     user_name = models.CharField(max_length=64,unique=True)
     password = models.CharField(max_length=64)
     email = models.CharField(max_length=64)

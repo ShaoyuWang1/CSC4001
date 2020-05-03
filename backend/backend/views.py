@@ -8,6 +8,59 @@ from .models import Jobs
 from .models import User
 # Create your views here.
 @csrf_exempt
+def updateUserInfo(request):
+
+    uid = request.POST.get('uid')
+    password = request.POST.get('password')
+    email = request.POST.get('email')
+
+    user_list = User.objects.filter(uid = uid)
+
+    try:
+        one_user = user_list[0]
+    except:
+        one_user = False
+
+    if one_user:
+
+
+
+        if password == one_user.password :# password == one_user.password
+            one_user.sex = request.POST.get('sex', one_user.sex)
+            one_user.age = request.POST.get('age', one_user.age)
+
+
+            user_list_2 = User.objects.filter(email= email)
+
+            try:
+                another_user = user_list_2[0]
+            except:
+                another_user = False
+
+            if another_user :
+                if another_user.email != one_user.email:
+                    return JsonResponse({"code": 200, 'msg':'update info failed, email exist', "status_code":1})
+
+
+            one_user.email = request.POST.get('email', one_user.email)
+            one_user.save()
+            user_dict = {
+                'uid':one_user.uid,
+                'sex': one_user.sex,
+                'age': one_user.age,
+                'user_name': one_user.user_name,
+                'email': one_user.email,
+
+            }
+
+            return JsonResponse({"code": 200, "msg": 'update info success',"user":user_dict,"status_code":0})
+        else:
+            return JsonResponse({"code": 200, 'msg': 'update info failed, wrong password', "status_code": 1})
+
+    else:
+        return JsonResponse({"code": 200, 'msg': 'update info failed, no such user', "status_code": 1})
+
+@csrf_exempt
 def getOneJob(request):
     job_id = request.POST.get('job_id')
     job_list = Jobs.objects.filter(jid__icontains=job_id)
@@ -54,6 +107,9 @@ def postOneJob(request):
 @csrf_exempt
 def registerOneUser(request):
     user_name = request.POST.get('user_name')
+    email = request.POST.get("email")
+    password = request.POST.get('password')
+
     user_list = User.objects.filter(user_name = user_name)
 
     try:
@@ -64,21 +120,26 @@ def registerOneUser(request):
 
 
     if one_user:
-        return JsonResponse({"code": 400, "msg": 'repeat user name', "one_user":one_user})
-
-    # usex = request.POST.get('sex')
-    # if usex == "male" or usex == "男":
-    #     sex = ("male","男")
-    # else:
-    #     sex = ("femal","女")
-    sex =  request.POST.get('sex')
-    age = request.POST.get("age")
-    email = request.POST.get("email")
+        return JsonResponse({"code": 200, "msg": 'register, the account already exists', "status_code":1})
 
 
-    password = request.POST.get('password')
-    User.objects.create(user_name = user_name,password = password,sex = sex,age = age,email = email)
-    return JsonResponse({"code": 200, "msg": 'SUC'})
+    user_list = User.objects.filter(email = email)
+
+    try:
+        one_user = user_list[0]
+    except:
+        one_user = False
+
+
+
+    if one_user:
+        return JsonResponse({"code": 200, "msg": 'register, the account already exists', "status_code":1})
+
+
+
+
+    User.objects.create(user_name = user_name,password = password,email = email)
+    return JsonResponse({"code": 200, "msg": 'register successfully', "status_code":0})
 
 
 @csrf_exempt
@@ -109,12 +170,12 @@ def login(request):
             }
 
 
-            return JsonResponse({"code": 200, "msg": '请求成功', "user":user_dict})
+            return JsonResponse({"code": 200, "msg": 'login success',"status_code":0, "user": user_dict})
         else:
-            return JsonResponse({"code": 400, "msg": 'Wrong password'})
+            return JsonResponse({"code": 200, "msg": 'login failed', "status_code":1})
 
     else:
-        return JsonResponse({"code": 400, "msg": 'No such user'})
+        return JsonResponse({"code": 200, "msg": 'login failed', "status_code":1})
 
 
 @csrf_exempt
@@ -145,30 +206,4 @@ def getAllUserInfo(request):
         return JsonResponse({"code": 400, "msg": 'No such user'})
 
 
-@csrf_exempt
-def modifyUserInfo(request):
-    user_name = request.POST.get('user_name')
-    password = request.POST.get('password')
-    user_list = User.objects.filter(user_name = user_name)
-    try:
-        one_user = user_list[0]
-    except:
-        one_user = False
 
-    if one_user:
-
-
-
-        if password == one_user.password :# password == one_user.password
-            one_user.sex = request.POST.get('sex', one_user.sex)
-            one_user.age = request.POST.get('age', one_user.age)
-
-            one_user.password = request.POST.get('password', one_user.password)
-            one_user.email = request.POST.get('email', one_user.email)
-            one_user.save()
-            return JsonResponse({"code": 200, "msg": '请求成功'})
-        else:
-            return JsonResponse({"code": 400, "msg": 'Wrong password'})
-
-    else:
-        return JsonResponse({"code": 400, "msg": 'No such user'})
