@@ -17,7 +17,7 @@ POST
 - identifycode: hasn't used yet
 <---> <!-- magic sparator, between columns -->
 #### Output
-- {code: 200, msg: 'login success', status_code:0}
+- {code: 200, msg: 'login success', status_code:0, user: user}
 - {code: 200, msg: 'login failed', status_code:1}
 <--->
 #### Description
@@ -41,6 +41,23 @@ POST
 <---> 
 #### Description
 register a new user account, the user account should not be in the db, as well as the email address.
+{{< /columns >}}
+
+
+## updateUserInfo/
+{{< columns >}} <!-- begin columns block -->
+#### Method
+POST
+<---> <!-- magic sparator, between columns -->
+#### Input
+{uid, sex, age, email, avatar}
+<---> <!-- magic sparator, between columns -->
+#### Output
+- {code: 200, msg: 'update info success', status_code:0, user: user}
+- {code: 200, msg: 'update info failed', status_code:1}
+<--->
+#### Description
+update the user's info
 {{< /columns >}}
 
 
