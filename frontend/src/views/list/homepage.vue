@@ -89,7 +89,23 @@
 <script>
 import { getAllJobs } from '../../api/api';
   export default {
-    
+
+    data() {
+      return {
+        tableData: [],
+        currentRow: null,
+        user:null,
+        percentage: 10,
+        colors: [
+          {color: '#f56c6c', percentage: 20},
+          {color: '#e6a23c', percentage: 40},
+          {color: '#5cb87a', percentage: 60},
+          {color: '#1989fa', percentage: 80},
+          {color: '#6f7ad3', percentage: 100}
+        ],
+        imgUrl:null,
+      }
+    },
     mounted(){
       this.getJobs()
     },
@@ -110,6 +126,7 @@ import { getAllJobs } from '../../api/api';
       getJobs(){
         var user = sessionStorage.getItem('user');
         user = JSON.parse(user);
+        this.imgUrl = user.avatar
         let uid = user.id
         var that = this
         var Params = {user_id: uid}
@@ -142,7 +159,7 @@ import { getAllJobs } from '../../api/api';
       },
       // 头像上传
       handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+        this.imgUrl = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
@@ -159,22 +176,7 @@ import { getAllJobs } from '../../api/api';
       
     },
 
-    data() {
-      return {
-        tableData: [],
-        currentRow: null,
-        user:null,
-        percentage: 10,
-        colors: [
-          {color: '#f56c6c', percentage: 20},
-          {color: '#e6a23c', percentage: 40},
-          {color: '#5cb87a', percentage: 60},
-          {color: '#1989fa', percentage: 80},
-          {color: '#6f7ad3', percentage: 100}
-        ],
-        imgUrl:null,
-      }
-    }
+    
   }
 </script>
 

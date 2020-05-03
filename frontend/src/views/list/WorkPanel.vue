@@ -28,21 +28,6 @@
             </div>
         </el-col>
     </el-row>
-    <div class="in-file">
-			<input type="file" @change="inFile" multiple="multiple" accept="*/*" />
-		</div>
-    <div>
-            <!-- ElementUI上传 -->
-            <el-upload
-                :auto-upload="false"
-                :on-change="elInFile"
-                ref="upload"
-                class="upload-demo"
-                accept="*/*">
-              <el-button slot="trigger" size="mini" type="success" plain>选取文件</el-button>
-              <i slot="tip" class="el-upload__tip el-icon-info">请选取文本文件</i>
-            </el-upload>
-    </div>
 </el-row>
 </template>
 

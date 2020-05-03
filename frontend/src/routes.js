@@ -7,7 +7,7 @@ import WorkPanel from './views/list/WorkPanel.vue'
 // 
 import Test from './views/list/test.vue'
 import EditUserInfo from './views/list/editUserInfo.vue'
-import UploadJob from './views/list/uploadJob.vue'
+import UploadTask from './views/list/uploadTask.vue'
 
 let routes = [
     {
@@ -67,7 +67,7 @@ let routes = [
         leaf: true,
         iconCls: 'el-icon-s-platform', 
         children: [
-            { path: '/upload_job', component: UploadJob, name: 'UploadJob' }
+            { path: '/upload_task', component: UploadTask, name: 'UploadTask' }
         ],
         // hidden: true
     },

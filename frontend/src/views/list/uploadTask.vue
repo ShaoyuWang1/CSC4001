@@ -27,7 +27,7 @@
     </el-col>
   </el-form-item>
   <el-form-item label="翻译文本标签">
-      <el-checkbox-group v-model="form.type">
+      <el-checkbox-group v-model="form.tags">
       <el-checkbox-button label="news" name="type"></el-checkbox-button>
       <el-checkbox-button label="tourism" name="type"></el-checkbox-button>
       <el-checkbox-button label="others" name="type"></el-checkbox-button>
@@ -49,6 +49,9 @@
     <i slot="tip" class="el-upload__tip el-icon-info">请选取文本文件</i>
     </el-upload>
         字数: {{form.trans_content_txt.length}}
+  </el-form-item>
+  <el-form-item label="翻译概要">
+    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  v-model="form.abstract"></el-input>
   </el-form-item>
   <el-form-item label="费用">
     <el-input  :disabled="true" v-model="form.fee"></el-input>
@@ -75,8 +78,9 @@
                 ore_lang: '',
                 date1: '',
                 date2:'',
-                type: [],
+                tags: [],
                 trans_content_txt: '',
+                abstract: '',
                 fee:0,
                 }
             
