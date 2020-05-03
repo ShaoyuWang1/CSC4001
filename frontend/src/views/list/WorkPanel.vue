@@ -19,7 +19,7 @@
                         type="textarea"
                         :autosize="{ minRows: 4, maxRows: 16}"
                         placeholder="文本内容"
-                        v-model="translate_text">
+                        v-model="translate_content">
                     </el-input>
             <el-row>
                 <el-button type="primary" icon="el-icon-upload">上传</el-button>
@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       content:'',
-      translate_text: '',
+      translate_content: '',
       translate_title:'',
     }
   },
@@ -60,10 +60,10 @@ export default {
                 type: 'error'
               });
             } else {
-              let {abstract,content,date,ddl,title,translate_title,translate_text} = one_job
+              let {abstract,content,date,ddl,title,translate_title,translate_content} = one_job
               this.content = content
               this,translate_title = translate_title
-              this.translate_text = translate_text
+              this.translate_content = translate_content
             }
           });
       },
