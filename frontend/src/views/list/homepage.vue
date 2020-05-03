@@ -1,7 +1,17 @@
 <template>
 <div>
 <el-row>
-   <el-row><el-avatar :size="200" :src="avatarURL"></el-avatar></el-row>
+   <el-row>
+      <el-upload
+            class="avatar-uploader"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="imgUrl" :src="imgUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+    </el-row>
    <el-row>
       基础信息
       <el-col>
@@ -70,6 +80,9 @@
   </el-table>
   <!-- <el-button @click="getJobs()" type="text" size="small">测试一下</el-button> -->
    </el-row>
+    <el-row>
+      <el-button @click="edit_user_info()">更新信息</el-button>
+    </el-row>
 </div>
 </template>
 
@@ -115,6 +128,9 @@ import { getAllJobs } from '../../api/api';
             }
           });
       },
+      edit_user_info(){
+        this.$router.push({ name: 'editUserInfo'})
+      },
       continue_editing(index, data){
         let id = data[index].id
         // console.log('id', id)
@@ -123,6 +139,22 @@ import { getAllJobs } from '../../api/api';
       filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
+      },
+      // 头像上传
+      handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
       }
       
     },
@@ -140,8 +172,36 @@ import { getAllJobs } from '../../api/api';
           {color: '#1989fa', percentage: 80},
           {color: '#6f7ad3', percentage: 100}
         ],
-        avatarURL:null,
+        imgUrl:null,
       }
     }
   }
 </script>
+
+
+<style>
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+
+</style>

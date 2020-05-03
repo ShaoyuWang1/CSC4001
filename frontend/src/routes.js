@@ -6,6 +6,8 @@ import Table from './views/list/Table.vue'
 import WorkPanel from './views/list/WorkPanel.vue'
 // 
 import Test from './views/list/test.vue'
+import EditUserInfo from './views/list/editUserInfo.vue'
+import UploadJob from './views/list/uploadJob.vue'
 
 let routes = [
     {
@@ -21,7 +23,6 @@ let routes = [
         leaf: true,//只有一个节点
         iconCls: 'el-icon-menu', //图标样式class
         children: [
-            
             { path: '/homepage', component: Homepage, name: 'HomePage' ,meta: {
                 keepAlive: true // 需要被缓存
             }},
@@ -50,12 +51,25 @@ let routes = [
     {
         path: '/',
         component: Home,
-        name: 'Test',
+        name: '更新用户数据',
         leaf: true,
         iconCls: 'el-icon-s-platform', 
         children: [
-            { path: '/test', component: Test, name: 'Test' }
-        ]
+            { path: '/edit_uinfo', component: EditUserInfo, name: 'editUserInfo' }
+        ],
+        // hidden: true
+    },
+
+    {
+        path: '/',
+        component: Home,
+        name: '更新用户数据',
+        leaf: true,
+        iconCls: 'el-icon-s-platform', 
+        children: [
+            { path: '/upload_job', component: UploadJob, name: 'UploadJob' }
+        ],
+        // hidden: true
     },
     {
         path: '/',
