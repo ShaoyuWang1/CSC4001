@@ -56,10 +56,73 @@ def testPostOneJob():
     }
     res = r.post(base + 'postOneJob/', paras)
     print(res.text)
-testPostOneJob()
+# testPostOneJob()
+
+
+def testGetallJobs():
+    paras = {
+        'user_id':2,
+
+
+    }
+    res = r.post(base + 'getAllJobs/', paras)
+    print(res.text)
+# testGetallJobs()
+
+def testGetAllOrders():
+    res = r.post(base + 'getAllOrders/')
+    print(res.text)
+# testGetAllOrders()
+
+def testGetPostedOrders():
+    paras = {
+        'user_id':6,
+
+
+    }
+    res = r.post(base + 'getPostedOrders/', paras)
+    print(res.text)
+# testGetPostedOrders()
 
 
 
+def testCreateOrder():
+    paras = {
+        'uid':2,
+        'title':'15:14',
+        'content': 'vvvvvvvvvv',
+        'abstract': 'bbbbbbbbb',
+        "date":datetime.date.today(),
+        "ddl":datetime.date.today(),
+        "fee":10,
+        "tags":"sport"
+
+    }
+    res = r.post(base + 'createAnOrder/', paras)
+    print(res.text)
+
+# testCreateOrder()
+
+
+def testTakeOneOrder():
+    paras = {
+        "uid":1,
+        "oid":1
+    }
+    res = r.post(base + 'takeOneOrder/', paras)
+    print(res.text)
+# testTakeOneOrder()
+
+def testCompleteOrder():
+
+    paras = {
+        "uid": 2,
+        "oid": 1
+    }
+    res = r.post(base + 'completeOneOrder/', paras)
+    print(res.text)
+
+testCompleteOrder()
 
 
 
@@ -67,6 +130,8 @@ def testgetInfo():
     res = r.post(base + 'getAllUserInfo/', {"user_name": 'w'})
 
     print(res.text)
+
+
 
 
 

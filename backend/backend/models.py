@@ -38,6 +38,7 @@ class Jobs(models.Model):
     fee = models.DecimalField(decimal_places=2, max_digits=10)
     translated_title = models.TextField(max_length=1024, default="")
     translated_content = models.TextField(max_length=1024, default="")
+    state = models.IntegerField(default=0)
 
 
     class Meta:
@@ -48,9 +49,9 @@ class Orders(models.Model):
 
     oid = models.IntegerField(primary_key=True)
     uid = models.IntegerField()
-    available = models.IntegerField()
+    available = models.IntegerField(default=1)
 
-    completed = models.IntegerField()
+    completed = models.IntegerField(default=0)
     jid = models.IntegerField(null=True)
 
     title = models.CharField(max_length=21)

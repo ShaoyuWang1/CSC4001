@@ -8,9 +8,9 @@ class JobAdmin(object):
     # 用户管理的图标， 默认是圆圈，丑
     model_icon = 'fa fa-home' #icons 地址：
     # 显示的列，对应model相应字段名
-    list_display = ['jid', 'title', 'abstract', 'date', 'ddl', 'content', 'fee', 'translated_title', 'translated_content']
+    list_display = ['jid','state', 'title', 'abstract', 'date', 'ddl', 'content', 'fee', 'translated_title', 'translated_content']
     # 过滤器，用于查找，这是xadmin的强大之处
-    list_filter = ['date', 'ddl',  'fee']
+    list_filter = ['date', 'ddl',  'fee','state']
     # 搜索字段
     search_fields = ['title','abstract','translate_title', 'translate_text','date', 'ddl',  'fee']
     # 每页显示的数据行数

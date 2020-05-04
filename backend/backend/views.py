@@ -6,6 +6,7 @@ import json
 #
 from .models import Jobs
 from .models import User
+from .models import Orders
 # Create your views here.
 @csrf_exempt
 def registerOneUser(request):
@@ -154,6 +155,7 @@ def getOneJob(request):
             'fee' : one_job.fee,
             'translated_title': one_job.translated_title,
             'translated_content': one_job.translated_content,
+            'state':one_job.state,
 
         }
         return JsonResponse({"code": 200, "msg": 'SUC', "one_job":job_dict,'status_code':0})
@@ -183,23 +185,176 @@ def postOneJob(request):
     else:
         return JsonResponse({"code": 200, "msg": 'update fail', 'status_code': 1})
 
+@csrf_exempt
+def createAnOrder(request):
+    uid = request.POST.get('uid')
+    title = request.POST.get('title')
+    content = request.POST.get('content')
+    abstract = request.POST.get('abstract')
+    date = request.POST.get('date')
+    ddl  = request.POST.get('ddl')
+    fee = request.POST.get('fee')
+    tags = request.POST.get('tags')
+    Orders.objects.create(uid = uid,title = title,content = content,abstract = abstract,\
+                          date = date,ddl = ddl,fee = fee,tags = tags)
+    user_order_list = list(Orders.objects.filter(uid=uid))
+    oid = user_order_list[-1].oid
+
+    return JsonResponse({"code": 200, "msg": 'successfully created order','oid':oid, 'status_code': 0})
 
 
 
-# @csrf_exempt
-# def deleteOneJob(request):
-#     job_id = request.POST.get('job_id')
-#     job = Jobs.objects.get(jid =job_id)
-#     job.delete()
-#     return JsonResponse({"code": 200, "msg": 'SUC'})
+@csrf_exempt
+def getAllJobs(request):
+    uid = request.POST.get("user_id")
+    job_list = Jobs.objects.filter(uid = uid)
+    user_list = User.objects.filter(uid = uid)
+    try:
+
+        one_user = user_list[0]
+    except:
+        one_user = False
+    if one_user:
+        jid_list = [job.jid for job in job_list]
+        return JsonResponse({"code": 200, "msg": 'SUC','jobs':jid_list, 'status_code': 0})
+    else:
+        return JsonResponse({"code": 200, "msg": 'fail no such user', 'status_code': 1})
 
 
-# @csrf_exempt
-# def deleteOneUser(request):
-#     user_id = request.POST.get('id')
-#     usr = User.objects.get(id =user_id)
-#     usr.delete()
-#     return JsonResponse({"code": 200, "msg": 'SUC'})
+@csrf_exempt
+def getAllOrders(request):
+
+
+    available_order_list = Orders.objects.filter(available = 1)
+    oid_list = [job.oid for job in available_order_list]
+    return JsonResponse({"code": 200, "msg": 'SUC', 'orderss': oid_list, 'status_code': 0})
+    return
+
+@csrf_exempt
+def getPostedOrders(request):
+
+    uid = request.POST.get("user_id")
+    order_list = Orders.objects.filter(uid = uid)
+    user_list = User.objects.filter(uid = uid)
+    try:
+
+        one_user = user_list[0]
+    except:
+        one_user = False
+    if one_user:
+        oid_list = [order.oid for order in order_list]
+        return JsonResponse({"code": 200, "msg": 'SUC','orders':oid_list, 'status_code': 0})
+    else:
+        return JsonResponse({"code": 200, "msg": 'fail no such user', 'status_code': 1})
+
+
+
+@csrf_exempt
+def takeOneOrder(request):
+    oid = request.POST.get("oid")
+    uid = request.POST.get("uid")
+    user_list = User.objects.filter(uid=uid)
+    try:
+
+        one_user = user_list[0]
+    except:
+        one_user = False
+
+    if one_user == False:
+        return JsonResponse({"code": 200, "msg": 'fail, no such user', 'status_code': 1})
+    order_list = Orders.objects.filter(oid=oid)
+    try:
+
+        one_order = order_list[0]
+    except:
+        one_order = False
+
+
+    if one_order == False:
+        return JsonResponse({"code": 200, "msg": 'fail, no such order', 'status_code': 1})
+
+    if one_order.available == 0:
+        return JsonResponse({"code": 200, "msg": 'fail, this order has been taken', 'status_code': 1})
+
+    if int(one_order.uid) == int(uid) :
+        return JsonResponse({"code": 200, "msg": 'fail, this order is a newly created order that assigned to this user', 'status_code': 1})
+
+
+    Jobs.objects.create(uid = uid,title = one_order.title,content = one_order.content,abstract = one_order.abstract,\
+                          date = one_order.date,ddl = one_order.ddl,fee = one_order.fee,)
+
+    user_job_list = list(Jobs.objects.filter(uid=uid))
+    jid = user_job_list[-1].jid
+    one_order.jid = jid
+    one_order.available = 0
+    one_order.save()
+
+    return JsonResponse({"code": 200, "msg": 'successfully took order','jid':jid, 'status_code': 0})
+
+
+@csrf_exempt
+def completeOneOrder(request):
+    oid = request.POST.get("oid")
+    post_uid = request.POST.get("uid")
+
+
+    order_list = Orders.objects.filter(oid=oid)
+    try:
+
+        one_order = order_list[0]
+    except:
+        one_order = False
+
+
+    if one_order == False:
+        return JsonResponse({"code": 200, "msg": 'fail, no such order', 'status_code': 1})
+
+    if int(one_order.uid) != int(post_uid):
+        return JsonResponse({"code": 200, "msg": 'fail, the order was not posted by this user', 'status_code': 1})
+
+    if one_order.available == 1:
+
+        return JsonResponse({"code": 200, "msg": 'fail, this order has not been taken', 'status_code': 1})
+    if one_order.completed == 1:
+
+        return JsonResponse({"code": 200, "msg": 'fail, this order has been completed', 'status_code': 1})
+
+    job = Jobs.objects.filter(jid=one_order.jid)[0]
+
+    if job.state == 1:
+        return JsonResponse({"code": 200, "msg": 'fail, this job has been completed', 'status_code': 1})
+    if job.state == -1:
+        return JsonResponse({"code": 200, "msg": 'fail, this job has been given up', 'status_code': 1})
+
+    translated_uid = job.uid
+
+    post_user = User.objects.get(uid = post_uid)
+    translated_user = User.objects.get(uid= translated_uid)
+
+    if post_user.balance < one_order.fee:
+        return JsonResponse({"code": 200, "msg": 'fail, balance not enough', 'status_code': 1})
+    post_user.balance -= one_order.fee
+    post_user.save()
+    translated_user.balance += one_order.fee
+    translated_user.save()
+    job.state = 1
+    job.save()
+    one_order.completed = 1
+    one_order.save()
+    return JsonResponse({"code": 200, "msg": 'complete success', 'status_code': 0})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
