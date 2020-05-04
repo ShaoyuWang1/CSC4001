@@ -55,7 +55,7 @@
 
 
 <script>
-import { getCards } from '../../api/api';
+import { getAllOrders } from '../../api/api';
 export default {
     data() {
       return {
@@ -64,13 +64,13 @@ export default {
         }
   },
   mounted(){
-    this.getTheCards()
+    this.getAllOrders()
   },
   methods:{
-    getTheCards(){
+    getAllOrders(){
       let Params = null;
-      getCards(Params).then(data=>{
-        this.cards = data['cards'];
+      getAllOrders(Params).then(data=>{
+        this.cards = data['orders'];
       })
     }
   }

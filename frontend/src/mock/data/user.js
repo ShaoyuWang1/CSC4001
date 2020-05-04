@@ -1,7 +1,7 @@
 import Mock from 'mockjs';
 const LoginUsers = [
   {
-    id: 1,
+    uid: 1,
     username: 'admin',
     password: '123456',
     identifycode:'1234',
@@ -10,7 +10,7 @@ const LoginUsers = [
     type: 'admin'
   },
   {
-    id: 2,
+    uid: 2,
     username: 'admin01',
     password: '123456',
     identifycode:'1234',

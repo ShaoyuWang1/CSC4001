@@ -8,8 +8,8 @@ import Vuex from 'vuex'
 import store from './vuex/store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import Mock from './mock'
-Mock.bootstrap();
+// import Mock from './mock'
+// Mock.bootstrap();
 import './style/login.css'
 
 /* Vue.use(VueAxios, axios) */
@@ -24,14 +24,18 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   //NProgress.start();
-  if (to.path == '/login') {
-    sessionStorage.removeItem('user');
-  }
-  let user = JSON.parse(sessionStorage.getItem('user'));
-  if (!user && to.path != '/login') {
-    next({ path: '/login' })
-  } else {
+  if(to.path == '/index'){
     next()
+  }else{
+    if (to.path == '/login') {
+      sessionStorage.removeItem('user');
+    }
+    let user = JSON.parse(sessionStorage.getItem('user'));
+    if (!user && to.path != '/login') {
+      next({ path: '/login' })
+    } else {
+      next()
+    }
   }
 })
 

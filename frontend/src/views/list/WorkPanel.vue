@@ -35,6 +35,7 @@
 
 <script>
 import { getOneJob } from '../../api/api';
+import Qs from 'qs'
 export default {
   data() {
     return {

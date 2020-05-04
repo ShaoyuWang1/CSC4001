@@ -1,5 +1,6 @@
 import Login from './views/Login.vue'
 import Home from './views/Home.vue'
+import Index from './views/Index.vue'
 import Homepage from './views/list/homepage.vue' 
 import Market from './views/list/Market.vue' 
 import Table from './views/list/Table.vue'
@@ -10,6 +11,18 @@ import EditUserInfo from './views/list/editUserInfo.vue'
 import UploadTask from './views/list/uploadTask.vue'
 
 let routes = [
+    {
+        path: '/',
+        name: 'mainpage',
+        redirect:'/index',
+        hidden: true
+    },
+    {
+        path: '/index',
+        component: Index,
+        name: 'mainpage_index',
+        hidden: true
+    },
     {
         path: '/login',
         component: Login,

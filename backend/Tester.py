@@ -62,8 +62,6 @@ def testPostOneJob():
 def testGetallJobs():
     paras = {
         'user_id':2,
-
-
     }
     res = r.post(base + 'getAllJobs/', paras)
     print(res.text)
@@ -72,12 +70,11 @@ def testGetallJobs():
 def testGetAllOrders():
     res = r.post(base + 'getAllOrders/')
     print(res.text)
-# testGetAllOrders()
+testGetAllOrders()
 
 def testGetPostedOrders():
     paras = {
-        'user_id':6,
-
+        'user_id':2,
 
     }
     res = r.post(base + 'getPostedOrders/', paras)
@@ -90,13 +87,13 @@ def testCreateOrder():
     paras = {
         'uid':2,
         'title':'15:14',
+        'ori_lang':'EN',
+        'ore_lang':'CN',
         'content': 'vvvvvvvvvv',
         'abstract': 'bbbbbbbbb',
-        "date":datetime.date.today(),
-        "ddl":datetime.date.today(),
+        "ddl":"2020-05-04 21:28:40",
         "fee":10,
-        "tags":"sport"
-
+        "tags":"sport;'abc'"
     }
     res = r.post(base + 'createAnOrder/', paras)
     print(res.text)
@@ -122,7 +119,7 @@ def testCompleteOrder():
     res = r.post(base + 'completeOneOrder/', paras)
     print(res.text)
 
-testCompleteOrder()
+# testCompleteOrder()
 
 
 
@@ -133,6 +130,8 @@ def testgetInfo():
 
 
 
+# testlogin()
+# testGetallJobs()
 
 
 # def testdeleteOneUser():

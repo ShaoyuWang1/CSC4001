@@ -2,7 +2,7 @@ import axios from 'axios';
 
 let base = '';
 
-export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
+export const requestLogin = params => { return axios.post(`${base}/login/`, params).then(res => res.data); };
 
 export const refreshcode = params => { return axios.post(`${base}/refreshcode`, params).then(res => res.data); };
 
@@ -23,11 +23,16 @@ export const editUser = params => { return axios.get(`${base}/user/edit`, { para
 export const addUser = params => { return axios.get(`${base}/user/add`, { params: params }); };
 
 // jobs related
-export const getOneJob = params => { return axios.post(`${base}/getOneJob`, params).then(res => res.data); };
-export const getAllJobs = params => { return axios.post(`${base}/getAllJobs`, params).then(res => res.data); };
+export const getOneJob = params => { return axios.post(`${base}/getOneJob/`, params).then(res => res.data); };
+export const getAllJobs = params => { return axios.post(`${base}/getAllJobs/`, params).then(res => res.data); };
 
 // Market.vue
-export const getCards = params => { return axios.post(`${base}/getCards`, params).then(res => res.data); };
+export const getAllOrders = params => { return axios.post(`${base}/getAllOrders/`, params).then(res => res.data); };
+// create one order
+export const createAnOrder = params => { return axios.post(`${base}/createAnOrder/`, params).then(res => res.data); };
+export const getPostedOrders = params => { return axios.post(`${base}/getPostedOrders/`, params).then(res => res.data); };
+
 
 // test
 export const getTest = params => { return axios.post(`${base}/getTest`, params).then(res => res.data); };
+

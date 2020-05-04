@@ -1,5 +1,5 @@
 from django.db import models
-
+import django.utils.timezone as timezone
 # Create your models here.
 class User(models.Model):
     SEX = (
@@ -32,8 +32,10 @@ class Jobs(models.Model):
     uid = models.IntegerField()
     title = models.CharField(max_length=21)
     abstract = models.CharField(max_length=128)
-    date = models.DateField()
-    ddl = models.DateField()
+    ori_lang = models.CharField(max_length=128)
+    ore_lang = models.CharField(max_length=128)
+    date = models.DateTimeField(default = timezone.now)
+    ddl = models.DateTimeField()
     content = models.TextField(max_length=1024)
     fee = models.DecimalField(decimal_places=2, max_digits=10)
     translated_title = models.TextField(max_length=1024, default="")
@@ -56,8 +58,10 @@ class Orders(models.Model):
 
     title = models.CharField(max_length=21)
     abstract = models.CharField(max_length=128)
-    date = models.DateField()
-    ddl = models.DateField()
+    ori_lang = models.CharField(max_length=128)
+    ore_lang = models.CharField(max_length=128)
+    date = models.DateTimeField(default = timezone.now)
+    ddl = models.DateTimeField()
     content = models.TextField(max_length=1024)
     fee = models.DecimalField(decimal_places=2, max_digits=10)
     tags = models.CharField(max_length=128, default="")

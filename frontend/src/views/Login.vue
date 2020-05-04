@@ -37,6 +37,7 @@
 <script>
   import { requestLogin } from '../api/api';
   import { refreshcode } from '../api/api';
+  import Qs from 'qs'
   export default {
     data() {
       return {
@@ -62,22 +63,20 @@
         this.$refs.ruleForm2.validate((valid) => {
           if (valid) {
             this.logining = true;
-            var loginParams = { username: this.ruleForm2.username, password: this.ruleForm2.password, identifycode: this.ruleForm2.identifycode };
+
+            var loginParams = {user_name: this.ruleForm2.username, password: this.ruleForm2.password, identifycode: this.ruleForm2.identifycode };
+            loginParams = Qs.stringify(loginParams)
             requestLogin(loginParams).then(data => {
               this.logining = false;
-              let { msg, code, user } = data;
+              let { msg, code,status_code, user } = data;
               if (code !== 200) {
-                this.$message({
-                  message: msg,
-                  type: 'error'
-                });
+                this.$message.error("Server Error");
               } else {
-                if (user.type === "admin"){
-                    sessionStorage.setItem('user', JSON.stringify(user));
-                    this.$router.push({ path: '/homepage' });
-                } else if (user.type === "advert") {
-                    sessionStorage.setItem('user', JSON.stringify(user));
-                    this.$router.push({ path: '/table' });
+                if(status_code === 0){
+                  sessionStorage.setItem('user', JSON.stringify(user));
+                  this.$router.push({ path: '/homepage' });
+                }else{
+                  this.$message.error(msg);
                 }
               }
             });

@@ -21,7 +21,6 @@
 </el-row>
 
    <el-row>
-   
       <el-table
     :data="tableData"
     border
@@ -80,6 +79,37 @@
   </el-table>
   <!-- <el-button @click="getJobs()" type="text" size="small">测试一下</el-button> -->
    </el-row>
+   <el-row>
+      <el-table
+    :data="orderData"
+    border
+    style="width: 100%"
+    max-height="250"
+    highlight-current-row
+    @current-change="handleCurrentChange">
+    <el-table-column
+      prop="date"
+      label="提交/接单日期"
+      sortable
+      width="180"
+      column-key="date"
+      :filters="[]"
+      :filter-method="filterHandler"
+    >
+    </el-table-column>
+    <el-table-column
+      prop="ddl"
+      label="DDL"
+      sortable
+      width="180"
+      column-key="ddl"
+      :filters="[]"
+      :filter-method="filterHandler"
+    >
+    </el-table-column>
+  </el-table>
+  <!-- <el-button @click="getJobs()" type="text" size="small">测试一下</el-button> -->
+   </el-row>
     <el-row>
       <el-button @click="edit_user_info()">更新信息</el-button>
     </el-row>
@@ -87,12 +117,14 @@
 </template>
 
 <script>
-import { getAllJobs } from '../../api/api';
+import { getAllJobs, getPostedOrders } from '../../api/api';
+import Qs from 'qs'
   export default {
 
     data() {
       return {
         tableData: [],
+        orderData:[],
         currentRow: null,
         user:null,
         percentage: 10,
@@ -107,6 +139,7 @@ import { getAllJobs } from '../../api/api';
       }
     },
     mounted(){
+      this.setUserInfo()
       this.getJobs()
     },
     
@@ -123,13 +156,35 @@ import { getAllJobs } from '../../api/api';
       continueEditing(id){
 
       },
-      getJobs(){
+      setUserInfo(){
         var user = sessionStorage.getItem('user');
         user = JSON.parse(user);
         this.imgUrl = user.avatar
-        let uid = user.id
+        this.uid = user.uid
+      },
+      getOrders(){
         var that = this
-        var Params = {user_id: uid}
+        var Params = {user_id: this.uid}
+        Params = Qs.stringify(Params)
+        // console.log(Params)
+        getPostedOrders(Params).then(data =>{
+          let { msg, code, orders } = data;
+          // console.log(jobs)
+          if (code !== 200) {
+              this.$message({
+                message: msg,
+                type: 'error'
+              });
+            } else {
+              that.orderData = orders
+              // console.log(jobs)
+            }
+          });
+      },
+      getJobs(){
+        var that = this
+        var Params = {user_id: this.uid}
+        Params = Qs.stringify(Params)
         // console.log(Params)
         getAllJobs(Params).then(data =>{
           let { msg, code, jobs } = data;

@@ -46,6 +46,7 @@ def registerOneUser(request):
     return JsonResponse({"code": 200, "msg": 'register successfully', "status_code":0})
 @csrf_exempt
 def login(request):
+    # print(request.POST)
     user_name = request.POST.get('user_name')
     password = request.POST.get('password')
     user_list = User.objects.filter(user_name = user_name)
@@ -58,7 +59,7 @@ def login(request):
 
         if password == one_user.password :# password == one_user.password
             user_dict = {
-
+                'uid':one_user.uid,
                 'sex':one_user.sex,
                 'age':one_user.age,
                 'password': one_user.password,
@@ -191,12 +192,13 @@ def createAnOrder(request):
     title = request.POST.get('title')
     content = request.POST.get('content')
     abstract = request.POST.get('abstract')
-    date = request.POST.get('date')
+    ori_lang = request.POST.get('ori_lang')
+    ore_lang = request.POST.get('ore_lang')
     ddl  = request.POST.get('ddl')
     fee = request.POST.get('fee')
     tags = request.POST.get('tags')
     Orders.objects.create(uid = uid,title = title,content = content,abstract = abstract,\
-                          date = date,ddl = ddl,fee = fee,tags = tags)
+                          ddl = ddl,fee = fee,tags = tags, ore_lang=ore_lang,ori_lang =ori_lang)
     user_order_list = list(Orders.objects.filter(uid=uid))
     oid = user_order_list[-1].oid
 
@@ -210,13 +212,11 @@ def getAllJobs(request):
     job_list = Jobs.objects.filter(uid = uid)
     user_list = User.objects.filter(uid = uid)
     try:
-
         one_user = user_list[0]
     except:
         one_user = False
     if one_user:
-        jid_list = [job.jid for job in job_list]
-        return JsonResponse({"code": 200, "msg": 'SUC','jobs':jid_list, 'status_code': 0})
+        return JsonResponse({"code": 200, "msg": 'SUC','jobs':list(job_list.values()), 'status_code': 0})
     else:
         return JsonResponse({"code": 200, "msg": 'fail no such user', 'status_code': 1})
 
@@ -226,8 +226,12 @@ def getAllOrders(request):
 
 
     available_order_list = Orders.objects.filter(available = 1)
-    oid_list = [job.oid for job in available_order_list]
-    return JsonResponse({"code": 200, "msg": 'SUC', 'orderss': oid_list, 'status_code': 0})
+    ord_list = list(available_order_list.values())
+    print(ord_list)
+    # change tags
+    for order in ord_list:
+        order['tags'] = order['tags'].split(';')
+    return JsonResponse({"code": 200, "msg": 'SUC', 'orders': ord_list, 'status_code': 0})
     return
 
 @csrf_exempt
@@ -235,15 +239,17 @@ def getPostedOrders(request):
 
     uid = request.POST.get("user_id")
     order_list = Orders.objects.filter(uid = uid)
+    order_list = list(order_list.values())
     user_list = User.objects.filter(uid = uid)
     try:
-
         one_user = user_list[0]
     except:
         one_user = False
     if one_user:
-        oid_list = [order.oid for order in order_list]
-        return JsonResponse({"code": 200, "msg": 'SUC','orders':oid_list, 'status_code': 0})
+        # change tags
+        for order in order_list:
+            order['tags'] = order['tags'].split(';')
+        return JsonResponse({"code": 200, "msg": 'SUC','orders':order_list, 'status_code': 0})
     else:
         return JsonResponse({"code": 200, "msg": 'fail no such user', 'status_code': 1})
 

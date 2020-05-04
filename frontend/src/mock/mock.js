@@ -22,18 +22,18 @@ export default {
     });
 
     //登录
-    mock.onPost('/login').reply(config => {
+    mock.onPost('/login/').reply(config => {
       let {username, password, identifycode} = JSON.parse(config.data);
       return new Promise((resolve, reject) => {
         let user = null;
         setTimeout(() => {
           var arrs = LoginUsers.filter(u=>u.username === username && u.password === password);
           if (arrs === null || arrs.length === 0){
-            resolve([200, { code: 500, msg: '账号或密码错误，请再次输入' }]);
+            resolve([200, { code: 500, msg: '账号或密码错误，请再次输入' , status_code:1}]);
           } else {
             user = JSON.parse(JSON.stringify(arrs[0]));
             user.password = undefined;
-            resolve([200, { code: 200, msg: '请求成功', user }]);
+            resolve([200, { code: 200, msg: '请求成功', status_code:0, user }]);
           }
         }, 1000);
       });
@@ -87,7 +87,7 @@ export default {
     })
 
 
-    mock.onPost('/getCards').reply(config =>{
+    mock.onPost('/getAllOrders/').reply(config =>{
       return new Promise((resolve, reject) => {
         var cards = [];
         console.log(Cards);
