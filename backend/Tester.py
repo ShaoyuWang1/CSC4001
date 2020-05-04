@@ -3,7 +3,7 @@ import datetime
 # test
 base = 'http://127.0.0.1:8000/'
 def testlogin():
-    res = r.post(base + 'login/', {"user_name": 'w',"password":"123456","identifycode":"1222"})
+    res = r.post(base + 'login/', {"user_name": 'wsy',"password":"123456","identifycode":"1222"})
     print(res)
     print(res.text)
 
@@ -11,12 +11,9 @@ def testlogin():
 
 def testRegisterOneUser():
     paras = {
-        'user_name':'wy',
+        'user_name':'wsy',
         'password':'123456',
-        'sex':"male",
         'email':"1111@qq.com",
-        'age':21
-
 
     }
     res = r.post(base + 'register/', paras)
@@ -29,20 +26,21 @@ def testUpdate():
         'uid':1,
         'password':'123456',
 
-        'sex':"emale",
+        'sex':"male",
         'email':"1111@qq.com",
-        'age':21
+        'age':21,
+        'avatar':"12312",
 
 
     }
     res = r.post(base + 'updateUserInfo/', paras)
     print(res.text)
-testUpdate()
+# testUpdate()
 
 def testgetOneJob():
     res = r.post(base + 'getOneJob/', {"job_id":3})
     print(res.text)
-
+# testgetOneJob()
 
 # def testdeleteOneJob():
 #     res = r.post(base + 'deleteOneJob/', {"job_id": 1})
@@ -51,18 +49,14 @@ def testgetOneJob():
 def testPostOneJob():
 
     paras = {
-        "user_name":'wsy',
-        "title": '0503,09:11',
-        "abstract":"absfwdadsad",
-        "content":"asdasda",
-        "date":datetime.date.today(),
-        "ddl":datetime.date.today(),
-        "fee":10571
+        'job_id':31111,
+        'translated_title':'哈哈哈哈',
+        'translated_content':'嘿嘿嘿'
 
     }
     res = r.post(base + 'postOneJob/', paras)
     print(res.text)
-
+testPostOneJob()
 
 
 

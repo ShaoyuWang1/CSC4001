@@ -8,103 +8,6 @@ from .models import Jobs
 from .models import User
 # Create your views here.
 @csrf_exempt
-def updateUserInfo(request):
-
-    uid = request.POST.get('uid')
-    password = request.POST.get('password')
-    email = request.POST.get('email')
-
-    user_list = User.objects.filter(uid = uid)
-
-    try:
-        one_user = user_list[0]
-    except:
-        one_user = False
-
-    if one_user:
-
-
-
-        if password == one_user.password :# password == one_user.password
-            one_user.sex = request.POST.get('sex', one_user.sex)
-            one_user.age = request.POST.get('age', one_user.age)
-
-
-            user_list_2 = User.objects.filter(email= email)
-
-            try:
-                another_user = user_list_2[0]
-            except:
-                another_user = False
-
-            if another_user :
-                if another_user.email != one_user.email:
-                    return JsonResponse({"code": 200, 'msg':'update info failed, email exist', "status_code":1})
-
-
-            one_user.email = request.POST.get('email', one_user.email)
-            one_user.save()
-            user_dict = {
-                'uid':one_user.uid,
-                'sex': one_user.sex,
-                'age': one_user.age,
-                'user_name': one_user.user_name,
-                'email': one_user.email,
-
-            }
-
-            return JsonResponse({"code": 200, "msg": 'update info success',"user":user_dict,"status_code":0})
-        else:
-            return JsonResponse({"code": 200, 'msg': 'update info failed, wrong password', "status_code": 1})
-
-    else:
-        return JsonResponse({"code": 200, 'msg': 'update info failed, no such user', "status_code": 1})
-
-@csrf_exempt
-def getOneJob(request):
-    job_id = request.POST.get('job_id')
-    job_list = Jobs.objects.filter(jid__icontains=job_id)
-    try:
-
-        one_job = job_list.values_list()[0]
-    except:
-        one_job = False
-    if one_job:
-        return JsonResponse({"code": 200, "msg": '请求成功', "one_job":one_job})
-    else:
-        return JsonResponse({"code": 400, "msg": '未查询到记录'})
-
-@csrf_exempt
-def postOneJob(request):
-    user_name = request.POST.get('user_name')
-    usr = User.objects.get(user_name = user_name)
-
-    title = request.POST.get('title')
-    abstract = request.POST.get('abstract')
-    date = request.POST.get('date')
-    ddl = request.POST.get('ddl')
-    content = request.POST.get('content')
-    fee = request.POST.get('fee')
-    Jobs.objects.create(user = usr ,title=title,abstract=abstract,date=date,ddl=ddl,content=content,fee=fee)
-    return JsonResponse({"code": 200, "msg": 'SUC'})
-
-
-# @csrf_exempt
-# def deleteOneJob(request):
-#     job_id = request.POST.get('job_id')
-#     job = Jobs.objects.get(jid =job_id)
-#     job.delete()
-#     return JsonResponse({"code": 200, "msg": 'SUC'})
-
-
-# @csrf_exempt
-# def deleteOneUser(request):
-#     user_id = request.POST.get('id')
-#     usr = User.objects.get(id =user_id)
-#     usr.delete()
-#     return JsonResponse({"code": 200, "msg": 'SUC'})
-
-@csrf_exempt
 def registerOneUser(request):
     user_name = request.POST.get('user_name')
     email = request.POST.get("email")
@@ -140,8 +43,6 @@ def registerOneUser(request):
 
     User.objects.create(user_name = user_name,password = password,email = email)
     return JsonResponse({"code": 200, "msg": 'register successfully', "status_code":0})
-
-
 @csrf_exempt
 def login(request):
     user_name = request.POST.get('user_name')
@@ -154,8 +55,6 @@ def login(request):
 
     if one_user:
 
-
-
         if password == one_user.password :# password == one_user.password
             user_dict = {
 
@@ -164,18 +63,148 @@ def login(request):
                 'password': one_user.password,
                 'user_name':one_user.user_name,
                 'email':one_user.email,
-
-
+                'avatar':one_user.avatar,
+                'balance':one_user.balance,
 
             }
 
 
             return JsonResponse({"code": 200, "msg": 'login success',"status_code":0, "user": user_dict})
         else:
-            return JsonResponse({"code": 200, "msg": 'login failed', "status_code":1})
+            return JsonResponse({"code": 200, "msg": 'login failed, wrong password', "status_code":1})
 
     else:
-        return JsonResponse({"code": 200, "msg": 'login failed', "status_code":1})
+        return JsonResponse({"code": 200, "msg": 'login failed, no such user', "status_code":1})
+
+@csrf_exempt
+def updateUserInfo(request):
+
+    uid = request.POST.get('uid')
+    password = request.POST.get('password')
+    email = request.POST.get('email')
+
+    user_list = User.objects.filter(uid = uid)
+
+    try:
+        one_user = user_list[0]
+    except:
+        one_user = False
+
+    if one_user:
+
+
+
+        if password == one_user.password :# password == one_user.password
+            one_user.sex = request.POST.get('sex', one_user.sex)
+            one_user.age = request.POST.get('age', one_user.age)
+            one_user.avatar = request.POST.get('avatar', one_user.age)
+
+            user_list_2 = User.objects.filter(email= email)
+
+            try:
+                another_user = user_list_2[0]
+            except:
+                another_user = False
+
+            if another_user :
+                if another_user.email != one_user.email:
+                    return JsonResponse({"code": 200, 'msg':'update info failed, email exist', "status_code":1})
+
+
+            one_user.email = request.POST.get('email', one_user.email)
+            one_user.save()
+            user_dict = {
+                'uid':one_user.uid,
+                'sex': one_user.sex,
+                'age': one_user.age,
+                'user_name': one_user.user_name,
+                'email': one_user.email,
+                'avatar': one_user.avatar,
+                'balance': one_user.balance,
+
+            }
+
+            return JsonResponse({"code": 200, "msg": 'update info success',"user":user_dict,"status_code":0})
+        else:
+            return JsonResponse({"code": 200, 'msg': 'update info failed, wrong password', "status_code": 1})
+
+    else:
+        return JsonResponse({"code": 200, 'msg': 'update info failed, no such user', "status_code": 1})
+
+@csrf_exempt
+def getOneJob(request):
+    job_id = request.POST.get('job_id')
+    job_list = Jobs.objects.filter(jid__icontains=job_id)
+    try:
+
+        one_job = job_list[0]
+    except:
+        one_job = False
+    if one_job:
+        job_dict= {
+            'jid' : one_job.jid,
+            'uid' : one_job.uid,
+            'title' : one_job.title,
+            'abstract' : one_job.abstract,
+
+            'date' : one_job.date,
+            'ddl' : one_job.ddl,
+            'title' : one_job.title,
+            'content' : one_job.content,
+            'fee' : one_job.fee,
+            'translated_title': one_job.translated_title,
+            'translated_content': one_job.translated_content,
+
+        }
+        return JsonResponse({"code": 200, "msg": 'SUC', "one_job":job_dict,'status_code':0})
+    else:
+        return JsonResponse({"code": 200, "msg": 'fail', 'status_code': 1})
+
+@csrf_exempt
+def postOneJob(request):
+    job_id = request.POST.get('job_id')
+    update_title =  request.POST.get('translated_title')
+    update_content = request.POST.get('translated_content')
+
+    job_list = Jobs.objects.filter(jid__icontains=job_id)
+    try:
+
+        one_job = job_list[0]
+    except:
+        one_job = False
+    if one_job:
+
+        one_job.translated_title = update_title
+        one_job.translated_content = update_content
+        one_job.save()
+        return JsonResponse({"code": 200, "msg": 'update SUC','status_code': 0})
+
+
+    else:
+        return JsonResponse({"code": 200, "msg": 'update fail', 'status_code': 1})
+
+
+
+
+# @csrf_exempt
+# def deleteOneJob(request):
+#     job_id = request.POST.get('job_id')
+#     job = Jobs.objects.get(jid =job_id)
+#     job.delete()
+#     return JsonResponse({"code": 200, "msg": 'SUC'})
+
+
+# @csrf_exempt
+# def deleteOneUser(request):
+#     user_id = request.POST.get('id')
+#     usr = User.objects.get(id =user_id)
+#     usr.delete()
+#     return JsonResponse({"code": 200, "msg": 'SUC'})
+
+
+
+
+
 
 
 @csrf_exempt
