@@ -28,6 +28,7 @@ export const getAllJobs = params => { return axios.post(`${base}/getAllJobs/`, p
 
 // Market.vue
 export const getAllOrders = params => { return axios.post(`${base}/getAllOrders/`, params).then(res => res.data); };
+export const takeOneOrder = params => {return axios.post(`${base}/takeOneOrder/`, params).then(res => res.data);};
 // create one order
 export const createAnOrder = params => { return axios.post(`${base}/createAnOrder/`, params).then(res => res.data); };
 export const getPostedOrders = params => { return axios.post(`${base}/getPostedOrders/`, params).then(res => res.data); };
