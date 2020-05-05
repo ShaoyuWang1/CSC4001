@@ -7,7 +7,7 @@ def testlogin():
     print(res)
     print(res.text)
 
-# testlogin() #done 5.4
+testlogin() #done 5.4
 
 def testRegisterOneUser():
     paras = {
@@ -70,7 +70,7 @@ def testGetallJobs():
 def testGetAllOrders():
     res = r.post(base + 'getAllOrders/')
     print(res.text)
-testGetAllOrders()
+# testGetAllOrders()
 
 def testGetPostedOrders():
     paras = {
@@ -108,7 +108,7 @@ def testTakeOneOrder():
     }
     res = r.post(base + 'takeOneOrder/', paras)
     print(res.text)
-# testTakeOneOrder()
+testTakeOneOrder()
 
 def testCompleteOrder():
 

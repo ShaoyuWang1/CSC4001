@@ -268,6 +268,7 @@ def takeOneOrder(request):
 
     if one_user == False:
         return JsonResponse({"code": 200, "msg": 'fail, no such user', 'status_code': 1})
+
     order_list = Orders.objects.filter(oid=oid)
     try:
 

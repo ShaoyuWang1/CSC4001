@@ -80,7 +80,7 @@ export default {
 
 
 
-<style>
+<style scoped>
   
 
   .text {

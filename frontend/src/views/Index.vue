@@ -8,16 +8,16 @@
                         </div>
                     </el-col>
                     <el-col :span="2" push=10>
-                        <el-button type="text">Home</el-button>
+                        <el-button @click="goHome" type="text">Home</el-button>
                     </el-col>
                     <el-col :span="2" push=10>
-                        <el-button type="text">Market</el-button>
+                        <el-button @click="goMarket" type="text">Market</el-button>
                     </el-col>
                     <el-col :span="2" push=10>
-                        <el-button type="text">Panel</el-button>
+                        <el-button @click="goPanel" type="text">Panel</el-button>
                     </el-col>
                     <el-col :span="2" push=10>
-                        <el-button type="text">Upload</el-button>
+                        <el-button @click="goUpload" type="text">Upload</el-button>
                     </el-col>
                 </el-row>
             </el-header>
@@ -52,7 +52,7 @@
                             <i class="el-icon-user-solid"/>
                             <h3>Personal Center</h3>
                             <p class="icon-intro">Go to your personal center and check orders you've uploaded or undertaken</p>
-                            <el-link>Go Now<i class="el-icon-position el-icon--right"/></el-link>
+                            <el-link href="/#/homepage">Go Now<i class="el-icon-position el-icon--right"/></el-link>
                         </div>
                     </div>
                 </el-col>
@@ -62,7 +62,7 @@
                             <i class="el-icon-s-order"/>
                             <h3>Market</h3>
                             <p class="icon-intro">Browse available translation orders and check out what's new on our market</p>
-                            <el-link>Go Now<i class="el-icon-position el-icon--right"/></el-link>
+                            <el-link href="/#/market">Go Now<i class="el-icon-position el-icon--right"/></el-link>
                         </div>
                     </div>
                 </el-col>
@@ -72,15 +72,11 @@
                             <i class="el-icon-upload"/>
                             <h3>Create Order</h3>
                             <p class="icon-intro">Create your own translation request and submit it to our market</p>
-                            <el-link>Go Now<i class="el-icon-position el-icon--right"/></el-link>
+                            <el-link href="/#/upload_task">Go Now<i class="el-icon-position el-icon--right"/></el-link>
                         </div>
                     </div>
                 </el-col>
             </el-row>
-
-
-
-
         </el-footer>
     </el-container>
 </template>
@@ -90,15 +86,27 @@
         name: "temp",
         methods:{
             goLogin(){
-            this.$router.push({ path: '/homepage' });
-            }
+                this.$router.push({ path: '/login' });
+            },
+            goHome(){
+                this.$router.push({ path: '/homepage'})
+            },
+            goMarket(){
+                this.$router.push({ path: '/market'})
+            },
+            goPanel(){
+                this.$router.push({ path: '/panel'})
+            },
+            goUpload(){
+                this.$router.push({ path: '/upload_task'})
+            },
         }
     }
 </script>
 
 <style scoped>
     #upper {
-        background-image: url("./hero-bg.jpg");
+        background-image: url("../assets/hero-bg.jpg");
         /*opacity: 0.7;*/
     }
 
