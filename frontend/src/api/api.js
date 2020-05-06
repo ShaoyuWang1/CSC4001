@@ -34,6 +34,3 @@ export const createAnOrder = params => { return axios.post(`${base}/createAnOrde
 export const getPostedOrders = params => { return axios.post(`${base}/getPostedOrders/`, params).then(res => res.data); };
 
 
-// test
-export const getTest = params => { return axios.post(`${base}/getTest`, params).then(res => res.data); };
-

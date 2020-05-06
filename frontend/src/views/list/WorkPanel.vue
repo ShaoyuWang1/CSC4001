@@ -61,7 +61,7 @@ export default {
                 type: 'error'
               });
             } else {
-              let {abstract,content,date,ddl,title,translate_title,translate_content} = one_job
+              let {abstract,content,date,ddl,title,translated_title,translated_content} = one_job
               this.content = content
               this,translate_title = translate_title
               this.translate_content = translate_content

@@ -3,10 +3,8 @@ import Home from './views/Home.vue'
 import Index from './views/Index.vue'
 import Homepage from './views/list/homepage.vue' 
 import Market from './views/list/Market.vue' 
-import Table from './views/list/Table.vue'
 import WorkPanel from './views/list/WorkPanel.vue'
 // 
-import Test from './views/list/test.vue'
 import EditUserInfo from './views/list/editUserInfo.vue'
 import UploadTask from './views/list/uploadTask.vue'
 
@@ -83,27 +81,8 @@ let routes = [
             { path: '/upload_task', component: UploadTask, name: 'UploadTask' }
         ],
         // hidden: true
-    },
-    {
-        path: '/',
-        component: Home,
-        name: '菜单',
-        // leaf: true,//只有一个节点
-        iconCls: 'el-icon-message', //图标样式class
-        children: [
-            { path: '/table', component: Table, name: 'table01' }
-        ]
-    },
-    {
-        path: '/',
-        component: Home,
-        name: '菜单',
-        // leaf: true,//只有一个节点
-        iconCls: 'el-icon-message', //图标样式class
-        children: [
-            { path: '/table', component: Table, name: 'table01' }
-        ]
     }
+    
 ];
 
 export default routes;

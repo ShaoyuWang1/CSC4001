@@ -40,7 +40,7 @@ def testUpdate():
 def testgetOneJob():
     res = r.post(base + 'getOneJob/', {"job_id":3})
     print(res.text)
-# testgetOneJob()
+testgetOneJob()
 
 # def testdeleteOneJob():
 #     res = r.post(base + 'deleteOneJob/', {"job_id": 1})
@@ -107,7 +107,7 @@ def testCreateOrder():
 def testCancelOneOrder():
     res = r.post(base + 'cancelOneOrder/', {'order_id':1})
     print(res.text)
-testCancelOneOrder()
+# testCancelOneOrder()
 
 def testTakeOneOrder():
     paras = {

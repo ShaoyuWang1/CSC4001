@@ -3,7 +3,7 @@ import MockAdapter from 'axios-mock-adapter';
 import {LoginUsers} from './data/user';
 import {Jobs} from './data/job';
 import {Cards} from './data/MarketCards';
-
+import Qs from 'qs'
 export default {
   /**
    * mock bootstrap
@@ -23,17 +23,14 @@ export default {
 
     //登录
     mock.onPost('/login/').reply(config => {
-      let {username, password, identifycode} = JSON.parse(config.data);
+      let {user_name, password, identifycode} = Qs.parse(config.data);
       return new Promise((resolve, reject) => {
-        let user = null;
         setTimeout(() => {
-          var arrs = LoginUsers.filter(u=>u.username === username && u.password === password);
+          var arrs = LoginUsers.filter(u=>u.user_name === user_name && u.password === password);
           if (arrs === null || arrs.length === 0){
             resolve([200, { code: 500, msg: '账号或密码错误，请再次输入' , status_code:1}]);
           } else {
-            user = JSON.parse(JSON.stringify(arrs[0]));
-            user.password = undefined;
-            resolve([200, { code: 200, msg: '请求成功', status_code:0, user }]);
+            resolve([200, { code: 200, msg: '请求成功', status_code:0, user:arrs[0]}]);
           }
         }, 1000);
       });

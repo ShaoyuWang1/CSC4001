@@ -69,6 +69,7 @@
             requestLogin(loginParams).then(data => {
               this.logining = false;
               let { msg, code,status_code, user } = data;
+              console.log(user)
               if (code !== 200) {
                 this.$message.error("Server Error");
               } else {

@@ -25,12 +25,26 @@
     </el-date-picker>
   </el-form-item>
   <el-form-item label="翻译文本标签">
-      <el-checkbox-group v-model="form.tags">
-      <el-checkbox-button label="news" name="type"></el-checkbox-button>
-      <el-checkbox-button label="tourism" name="type"></el-checkbox-button>
-      <el-checkbox-button label="others" name="type"></el-checkbox-button>
-    </el-checkbox-group>
-  </el-form-item>
+    <el-tag
+  :key="tag"
+  v-for="tag in dynamicTags"
+  closable
+  :disable-transitions="false"
+  @close="handleClose(tag)">
+  {{tag}}
+</el-tag>
+<el-input
+  class="input-new-tag"
+  v-if="inputVisible"
+  v-model="inputValue"
+  ref="saveTagInput"
+  size="small"
+  @keyup.enter.native="handleInputConfirm"
+  @blur="handleInputConfirm"
+>
+</el-input>
+<el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+</el-form-item>
   
   <el-form-item label="翻译内容">
     <el-input type="textarea"
@@ -81,7 +95,10 @@ import Qs from 'qs'
                 content: '',
                 abstract: '',
                 fee:0,
-                }
+                },
+                dynamicTags: ['标签一', '标签二', '标签三'],
+                inputVisible: false,
+                inputValue: ''
             
 			};
 		},
@@ -93,7 +110,7 @@ import Qs from 'qs'
         let uid = user.uid
         let param = this.form
         param['uid'] = uid; 
-        param.tags = param.tags.join(';') // convert array to string
+        param.tags = this.dynamicTags.join(';') // convert array to string
         param = Qs.stringify(param)
         createAnOrder(param).then(data => {
             let { msg,code,status_code, oid } = data;
@@ -108,6 +125,26 @@ import Qs from 'qs'
               }
             }
           });
+      },
+      // tags
+      handleClose(tag) {
+        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+      },
+
+      showInput() {
+        this.inputVisible = true;
+        this.$nextTick(_ => {
+          this.$refs.saveTagInput.$refs.input.focus();
+        });
+      },
+
+      handleInputConfirm() {
+        let inputValue = this.inputValue;
+        if (inputValue) {
+          this.dynamicTags.push(inputValue);
+        }
+        this.inputVisible = false;
+        this.inputValue = '';
       },
       // how much per 100 words
       cal_fee(num){
@@ -177,4 +214,19 @@ import Qs from 'qs'
 	.in-file {
 		text-align: center;
 	}
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
 </style>
