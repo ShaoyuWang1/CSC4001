@@ -1,18 +1,19 @@
 import Login from './views/Login.vue'
 import Home from './views/Home.vue'
 import Index from './views/Index.vue'
-import Homepage from './views/list/homepage.vue' 
-import Market from './views/list/Market.vue' 
+import Homepage from './views/list/homepage.vue'
+import Market from './views/list/Market.vue'
 import WorkPanel from './views/list/WorkPanel.vue'
 // 
 import EditUserInfo from './views/list/editUserInfo.vue'
 import UploadTask from './views/list/uploadTask.vue'
+import Register from "./views/Register";
 
 let routes = [
     {
         path: '/',
         name: 'mainpage',
-        redirect:'/index',
+        redirect: '/index',
         hidden: true
     },
     {
@@ -20,6 +21,11 @@ let routes = [
         component: Index,
         name: 'mainpage_index',
         hidden: true
+    },
+    {
+        path: '/register',
+        component: Register,
+        name: 'register',
     },
     {
         path: '/login',
@@ -34,9 +40,11 @@ let routes = [
         leaf: true,//只有一个节点
         iconCls: 'el-icon-menu', //图标样式class
         children: [
-            { path: '/homepage', component: Homepage, name: 'HomePage' ,meta: {
-                keepAlive: true // 需要被缓存
-            }},
+            {
+                path: '/homepage', component: Homepage, name: 'HomePage', meta: {
+                    keepAlive: true // 需要被缓存
+                }
+            },
         ]
     },
     {
@@ -46,7 +54,7 @@ let routes = [
         leaf: true,//只有一个节点
         iconCls: 'el-icon-shopping-bag-2', //图标样式class
         children: [
-            { path: '/market', component: Market, name: 'Market' },
+            {path: '/market', component: Market, name: 'Market'},
         ]
     },
     {
@@ -54,9 +62,9 @@ let routes = [
         component: Home,
         name: '工作台',
         leaf: true,
-        iconCls: 'el-icon-s-platform', 
+        iconCls: 'el-icon-s-platform',
         children: [
-            { path: '/panel', component: WorkPanel, name: 'Panel' }
+            {path: '/panel', component: WorkPanel, name: 'Panel'}
         ]
     },
     {
@@ -64,9 +72,9 @@ let routes = [
         component: Home,
         name: '更新用户数据',
         leaf: true,
-        iconCls: 'el-icon-s-platform', 
+        iconCls: 'el-icon-s-platform',
         children: [
-            { path: '/edit_uinfo', component: EditUserInfo, name: 'editUserInfo' }
+            {path: '/edit_uinfo', component: EditUserInfo, name: 'editUserInfo'}
         ],
         // hidden: true
     },
@@ -76,13 +84,13 @@ let routes = [
         component: Home,
         name: '更新用户数据',
         leaf: true,
-        iconCls: 'el-icon-s-platform', 
+        iconCls: 'el-icon-s-platform',
         children: [
-            { path: '/upload_task', component: UploadTask, name: 'UploadTask' }
+            {path: '/upload_task', component: UploadTask, name: 'UploadTask'}
         ],
         // hidden: true
     }
-    
+
 ];
 
 export default routes;

@@ -23,7 +23,7 @@
             </el-header>
             <div id="mask">
                 <el-container id="container1">
-                    <el-header height="600px">
+                    <el-header>
                         <el-container id="intro">
                             <div class="intro-text">
                                 <el-header>
@@ -44,8 +44,8 @@
                 </el-container>
             </div>
         </div>
-        <el-footer id="page_footer" height="300px">
-            <el-row gutter="40">
+        <el-footer id="page_footer">
+            <el-row gutter="40" id="bottom">
                 <el-col :span="8" class="grid-content">
                     <div>
                         <div class="function">
@@ -136,7 +136,7 @@
     }
 
     #mask {
-        height: 100%;
+        height: 80vh;
         width: 100%;
         background: rgba(0, 0, 0, .2);
     }
@@ -148,6 +148,7 @@
     }
 
     #intro1 {
+        font-size: 2vw;
         color: rgba(104, 226, 135, 1);
     }
 
@@ -161,7 +162,7 @@
         text-align: left;
         color: #ffffff;
         line-height: 150%;
-        font-size: 20px;
+        font-size: 1.4vw;
     }
 
     .el-header, .el-footer {
@@ -182,8 +183,8 @@
         margin-bottom: 40px;
     }
 
-    #page_footer {
-        height: 200px;
+    #bottom {
+        margin-top: -3%;
     }
 
     #border {
