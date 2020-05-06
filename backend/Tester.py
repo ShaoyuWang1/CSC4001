@@ -56,7 +56,7 @@ def testPostOneJob():
     }
     res = r.post(base + 'postOneJob/', paras)
     print(res.text)
-# testPostOneJob()
+testPostOneJob()
 def testCancelOneJob():
     paras = {'job_id' : 1 }
     res = r.post(base+'cancelOneJob/',paras)

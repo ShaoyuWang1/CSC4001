@@ -204,9 +204,9 @@ import Qs from 'qs'
         this.$router.push({ name: 'editUserInfo'})
       },
       continue_editing(index, data){
-        let id = data[index].id
+        let jid = data[index].jid
         // console.log('id', id)
-        this.$router.push({ name: 'Panel', params: { id: id }})
+        this.$router.push({ name: 'Panel', params: { id: jid }})
       },
       filterHandler(value, row, column) {
         const property = column['property'];

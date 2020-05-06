@@ -12,3 +12,9 @@ The documentation of WeTrans use Hugo.
   - cd to the root
   - hugo server --minify --theme book
   
+# About machine translation
+npm install --save google-translate-api
+- replace 
+  - node_modules/google-translate-api/index.js and node_modules/google-translate-token/index.js
+  - replace all https://translate.google.com to https://translate.google.cn
+  
