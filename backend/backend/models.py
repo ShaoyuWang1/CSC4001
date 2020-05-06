@@ -53,7 +53,8 @@ class Orders(models.Model):
     uid = models.IntegerField()
     available = models.IntegerField(default=1)
 
-    completed = models.IntegerField(default=0)
+    order_completed = models.IntegerField(default=1)
+    job_completed = models.IntegerField(default=0)
     jid = models.IntegerField(null=True)
 
     title = models.CharField(max_length=21)

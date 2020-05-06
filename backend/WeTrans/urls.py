@@ -27,12 +27,14 @@ urlpatterns = [
     path('getOneJob/', views.getOneJob),
     path('postOneJob/', views.postOneJob),
     path('getAllJobs/', views.getAllJobs),
+    path('cancelOneJob/',views.cancelOneJob),
 
     path('createAnOrder/', views.createAnOrder),
     path('getAllOrders/',views.getAllOrders),
     path('getPostedOrders/',views.getPostedOrders),
     path('takeOneOrder/',views.takeOneOrder),
     path('completeOneOrder/',views.completeOneOrder),
+    path('cancelOneOrder/',views.cancelOneOrder),
 
 
     path('login/', views.login),

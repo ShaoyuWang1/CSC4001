@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 import json
 
 #
@@ -136,7 +137,7 @@ def updateUserInfo(request):
 @csrf_exempt
 def getOneJob(request):
     job_id = request.POST.get('job_id')
-    job_list = Jobs.objects.filter(jid__icontains=job_id)
+    job_list = Jobs.objects.filter(jid =job_id)
     try:
 
         one_job = job_list[0]
@@ -169,7 +170,7 @@ def postOneJob(request):
     update_title =  request.POST.get('translated_title')
     update_content = request.POST.get('translated_content')
 
-    job_list = Jobs.objects.filter(jid__icontains=job_id)
+    job_list = Jobs.objects.filter(jid=job_id)
     try:
 
         one_job = job_list[0]
@@ -322,7 +323,7 @@ def completeOneOrder(request):
     if one_order.available == 1:
 
         return JsonResponse({"code": 200, "msg": 'fail, this order has not been taken', 'status_code': 1})
-    if one_order.completed == 1:
+    if one_order.job_completed == 1:
 
         return JsonResponse({"code": 200, "msg": 'fail, this order has been completed', 'status_code': 1})
 
@@ -346,12 +347,63 @@ def completeOneOrder(request):
     translated_user.save()
     job.state = 1
     job.save()
-    one_order.completed = 1
+    one_order.job_completed = 1
     one_order.save()
     return JsonResponse({"code": 200, "msg": 'complete success', 'status_code': 0})
 
 
 
+@csrf_exempt
+def cancelOneJob(request):
+    job_id = request.POST.get('job_id')
+    job_list = Jobs.objects.filter(jid=job_id)
+    try:
+
+        one_job = job_list[0]
+    except:
+        one_job = False
+    if one_job:
+        if one_job.state == -1:
+            return JsonResponse({"code": 200, "msg": 'this job has already been canceled', 'status_code': 1})
+        if one_job.state == 1:
+            return JsonResponse({"code": 200, "msg": 'this job has already been completed', 'status_code': 1})
+        one_job.state = -1
+        one_job.save()
+        one_order = Orders.objects.get(oid = one_job.oid)
+        one_order.job_completed = -1
+        one_order.save()
+        return JsonResponse({"code": 200, "msg": 'Successfully canceled the job','status_code':0})
+    else:
+        return JsonResponse({"code": 200, "msg": 'fail no such job', 'status_code': 1})
+
+
+@csrf_exempt
+def cancelOneOrder(request):
+
+    order_id = request.POST.get('order_id')
+    order_list = Orders.objects.filter(oid = order_id)
+    try:
+
+        one_order = order_list[0]
+    except:
+        one_order = False
+    if one_order:
+
+        if one_order.order_completed == -1:
+            return JsonResponse({"code": 200, "msg": 'this order has already been canceled', 'status_code': 1})
+        if type(one_order.jid) == int :
+
+            return JsonResponse({"code": 200, "msg": 'this order has already been taken, you can not cancel it', 'status_code': 1})
+        if one_order.job_completed == 1:
+            return JsonResponse({"code": 200, "msg": 'this order has already been finished', 'status_code': 1})
+        one_order.order_completed = -1
+        one_order.available = 0
+        one_order.save()
+
+
+        return JsonResponse({"code": 200, "msg": 'Successfully canceled the order','status_code':0})
+    else:
+        return JsonResponse({"code": 200, "msg": 'fail no such order', 'status_code': 1})
 
 
 
