@@ -71,6 +71,16 @@ def testGetallJobs():
     print(res.text)
 # testGetallJobs()
 
+def testCompleteJob():
+
+    paras = {
+        "user_id": 1,
+        "job_id": 4
+    }
+    res = r.post(base + 'completeOneJob/', paras)
+    print(res.text)
+# testCompleteJob()
+
 def testGetAllOrders():
     res = r.post(base + 'getAllOrders/')
     print(res.text)
@@ -83,7 +93,7 @@ def testGetPostedOrders():
     }
     res = r.post(base + 'getPostedOrders/', paras)
     print(res.text)
-testGetPostedOrders()
+# testGetPostedOrders()
 
 
 
@@ -119,15 +129,25 @@ def testTakeOneOrder():
 # testTakeOneOrder()
 
 def testCompleteOrder():
-
     paras = {
-        "uid": 2,
-        "oid": 1
+        "uid": 1,
+        "oid": 16
     }
     res = r.post(base + 'completeOneOrder/', paras)
     print(res.text)
 
-testCompleteOrder()
+# testCompleteOrder()
+
+def testCheckTranslatedText():
+    paras = {
+        "uid": 10,
+        "oid": 7
+    }
+    res = r.post(base + 'checkTranslatedText/', paras)
+    print(res.text)
+
+
+# testCheckTranslatedText()
 
 
 
