@@ -34,3 +34,8 @@ export const createAnOrder = params => { return axios.post(`${base}/createAnOrde
 export const getPostedOrders = params => { return axios.post(`${base}/getPostedOrders/`, params).then(res => res.data); };
 export const completeOneOrder = params => { return axios.post(`${base}/completeOneOrder/`, params).then(res => res.data); };
 
+// register user
+export const registerUser = params => { return axios.post(`${base}/registerUser/`, params).then(res => res.data); };
+
+// update user info
+export const updateUserInfo = params => { return axios.post(`${base}/updateUserInfo/`, params).then(res => res.data); };

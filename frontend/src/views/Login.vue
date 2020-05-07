@@ -7,35 +7,35 @@
                  label-position="left"
                  label-width="0px"
                  class="demo-ruleForm login-page">
-            <h3 class="title">登录平台</h3>
+            <h3 class="title">Login Page</h3>
             <el-form-item prop="username">
                 <el-input type="text"
                           v-model="ruleForm2.username"
                           auto-complete="off"
-                          placeholder="用户名"></el-input>
+                          placeholder="Username"></el-input>
             </el-form-item>
             <el-form-item prop="password">
                 <el-input type="password"
                           v-model="ruleForm2.password"
                           auto-complete="off"
-                          placeholder="密码"></el-input>
+                          placeholder="Password"></el-input>
             </el-form-item>
             <el-form-item style="width:100%;">
-                <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">登录
+                <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">Login
                 </el-button>
             </el-form-item>
             <el-form-item>
                 <el-checkbox
                         v-model="checked"
-                        class="rememberme">记住密码
+                        class="rememberme">Remember Password
                 </el-checkbox>
-                <el-button type="text" @click="forgetpassword">忘记密码</el-button>
+                <el-button type="text" @click="forgetpassword">Forget Password</el-button>
                 <div id="register">
                     <div class="align">
-                        <p>没有密码？</p>
+                        <p>No Account？</p>
                     </div>
                     <div class="align">
-                        <el-button type="text" @click="register">注册</el-button>
+                        <el-button type="text" @click="register">Register</el-button>
                     </div>
                 </div>
             </el-form-item>
@@ -56,10 +56,10 @@
                 ruleForm2: {},
                 rules2: {
                     account: [
-                        {required: true, message: '请输入账号', trigger: 'blur'},
+                        {required: true, message: 'Username can\'t be empty', trigger: 'blur'},
                     ],
                     checkPass: [
-                        {required: true, message: '请输入密码', trigger: 'blur'},
+                        {required: true, message: 'Password can\'t be empty', trigger: 'blur'},
                     ]
                 },
                 checked: true
@@ -108,14 +108,14 @@
                     this.imgUrl = serverUrl + "" + this.uuid
                 }).catch((error) => {
                     this.$message({
-                        message: "服务器请求出错，请重试！",
+                        message: "Error while requesting server，please retry！",
                         type: 'error'
                     });
                 });
             },
             forgetpassword() {
-                this.$alert('请联系管理员找回密码，管理员电话：xxxxxxxx', '提示', {
-                    confirmButtonText: '确定',
+                this.$alert('Please contact website administrator to retrieve password', 'Message', {
+                    confirmButtonText: 'OK',
                     type: 'warning'
                 })
             },

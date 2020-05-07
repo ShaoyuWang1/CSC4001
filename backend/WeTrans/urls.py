@@ -38,7 +38,7 @@ urlpatterns = [
 
 
     path('login/', views.login),
-    path('register/', views.registerOneUser),
+    path('registerUser/', views.registerOneUser),
     path('updateUserInfo/', views.updateUserInfo),
 
 

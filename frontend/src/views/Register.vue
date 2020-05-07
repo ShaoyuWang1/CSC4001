@@ -3,34 +3,39 @@
         <br>
         <div id="innerLayer">
             <br>
-            <h2 style="text-align: center;">输入注册信息</h2>
+            <h2 style="text-align: center;">Enter Personal Information</h2>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="用户名" prop="name">
-                    <el-input v-model="ruleForm.name"></el-input>
+                <el-form-item label="Username" prop="name">
+                    <el-input v-model="ruleForm.name" placeholder="Enter Username"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="pass">
-                    <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+                <el-form-item label="Password" prop="pass">
+                    <el-input type="password" v-model="ruleForm.pass" placeholder="Enter Password"
+                              autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="确认密码" prop="checkPass">
-                    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+                <el-form-item label="Confirm" prop="checkPass">
+                    <el-input type="password" v-model="ruleForm.checkPass" placeholder="Repeat Password"
+                              autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="性别" prop="region">
-                    <el-select v-model="ruleForm.sex" placeholder="请选择性别">
-                        <el-option label="男" value="shanghai"></el-option>
-                        <el-option label="女" value="beijing"></el-option>
+                <el-form-item label="Sex" prop="region">
+                    <el-select v-model="ruleForm.sex" placeholder="Select sex">
+                        <el-option label="Male" value="shanghai"></el-option>
+                        <el-option label="Female" value="beijing"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="出生日期" required>
+                <el-form-item label="Birthday" required>
                     <el-col :span="11">
                         <el-form-item prop="date1">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.birthday"
+                            <el-date-picker type="date" placeholder="Select date" v-model="ruleForm.birthday"
                                             style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-form-item>
+                <el-form-item label="Email" prop="name">
+                    <el-input v-model="ruleForm.email" placeholder="Enter Mail Address"></el-input>
+                </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-                    <el-button @click="resetForm('ruleForm')">重置</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')">Submit</el-button>
+                    <el-button @click="resetForm('ruleForm')">Reset</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -38,15 +43,14 @@
 </template>
 
 <script>
-    import {requestLogin} from '../api/api';
-    import {refreshcode} from '../api/api';
+    import {registerUser} from '../api/api';
     import Qs from 'qs'
 
     export default {
         data() {
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
-                    callback(new Error('请输入密码'));
+                    callback(new Error('Please enter password'));
                 } else {
                     if (this.ruleForm.checkPass !== '') {
                         this.$refs.ruleForm.validateField('checkPass');
@@ -56,39 +60,45 @@
             };
             var validatePass2 = (rule, value, callback) => {
                 if (value === '') {
-                    callback(new Error('请再次输入密码'));
+                    callback(new Error('Please re-enter password'));
                 } else if (value !== this.ruleForm.pass) {
-                    callback(new Error('两次输入密码不一致!'));
+                    callback(new Error('Two passwords are different!'));
                 } else {
                     callback();
                 }
             };
             return {
+                registering: false,
                 ruleForm: {
                     name: '',
                     sex: '',
                     birthday: '',
                     pass: '',
                     checkPass: '',
-                    age: ''
+                    email: ''
                 },
                 rules: {
                     name: [
-                        {required: true, message: '请输入活动名称', trigger: 'blur'},
-                        {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+                        {required: true, message: 'Username can\'t be empty', trigger: 'blur'},
+                        {min: 1, max: 15, message: 'The length should be less than 15 characters', trigger: 'blur'}
                     ],
                     sex: [
-                        {required: true, message: '请选择性别', trigger: 'change'}
+                        {required: true, message: 'Please select sex', trigger: 'change'}
                     ],
                     birthday: [
-                        {type: 'date', required: true, message: '请选择生日', trigger: 'change'}
+                        {type: 'date', message: 'Please select birthday', trigger: 'change'}
                     ],
                     pass: [
+                        {required: true, message: 'Password can\'t be empty', trigger: 'blur'},
                         {validator: validatePass, trigger: 'blur'}
                     ],
                     checkPass: [
+                        {required: true, message: 'Password can\'t be empty', trigger: 'blur'},
                         {validator: validatePass2, trigger: 'blur'}
                     ],
+                    email: [
+                        {required: true, message: 'Email address can\'t be empty', trigger: 'blur'},
+                    ]
                 }
             };
         },
@@ -97,7 +107,20 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         alert('submit!');
-                        // add post request here
+                        var registerParams = {
+                            user_name: this.ruleForm.name,
+                            password: this.ruleForm.pass,
+                            email: this.ruleForm.email,
+                        }
+                        registerParams = Qs.stringify(registerParams)
+                        registerUser(registerParams).then(data => {
+                            this.registering = false;
+                            let {msg, code, status_code} = data;
+                            console.log(data);
+                            if (code !== 200) {
+                                this.$message.error("Server Error");
+                            }
+                        });
                     } else {
                         console.log('error submit!!');
                         return false;
