@@ -10,15 +10,63 @@
             :before-upload="beforeAvatarUpload">
             <img v-if="imgUrl" :src="imgUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
+      </el-upload>
+      <el-upload
+            class="avatar-uploader"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+        <el-button  type="primary">Click to Change</el-button>
+      </el-upload>
     </el-row>
+
+    <!-- <el-button type="primary" icon="el-icon-edit" @click.stop="handleEditInfo">Edit</el-button>
+    <el-button type="primary" icon="el-icon-setting" @click.stop="handleSaveInfo">Save</el-button> -->
+ 
+  </el-row>
    <el-row>
-      基础信息
-      <el-col>
-         
-      </el-col>
+     <p style="font-size:18px;">Basic Information</p>
    </el-row>
-</el-row>
+   
+   <el-row>
+
+
+  </el-row>
+    <el-row>
+        <el-table
+            :data="infoData"
+            style="width: 100%">
+            <el-table-column
+        prop="info"
+        label="Information"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="detail"
+        label="Detail"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        label="Operations">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            @click="handleEditInfo(scope.$index, scope.row)">Edit</el-button>
+          <el-button
+            size="mini"
+            type="success"
+            @click="handleSaveInfo(scope.$index, scope.row)">Save</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+   </el-row>
+
+
+   <el-row>
+      <p style="font-size:18px;">My Job List</p>
+   </el-row>
+
 
    <el-row>
       <el-table
@@ -80,6 +128,12 @@
   <!-- <el-button @click="getJobs()" type="text" size="small">测试一下</el-button> -->
    </el-row>
    <el-row>
+      <p style="font-size:18px;">My Order List</p>
+    <el-col>
+         
+      </el-col>
+   </el-row>
+   <el-row>
       <el-table
     :data="orderData"
     border
@@ -123,7 +177,7 @@ import Qs from 'qs'
 
     data() {
       return {
-        tableData: [],
+        tableData:[],
         orderData:[],
         currentRow: null,
         user:null,
@@ -136,8 +190,39 @@ import Qs from 'qs'
           {color: '#6f7ad3', percentage: 100}
         ],
         imgUrl:null,
+        name: null,
+        phone: null,
+        email: null,
+        gender: null,
+        job: null,
+        university: null,
+        infoData: [{info:'Name', detail: 'admin'},
+                  {info:'Phone', detail: '13682129982'},
+                  {info:'Email', detail: '111010010@link.cuhk.edu.cn'},
+                  {info:'Gender', detail: 'male'},
+                  {info:'Job', detail: 'student'},
+                  {info:'University', detail: 'The Chinese University of Hong Kong, Shenzhen'},],
       }
     },
+    // {info: 'Name',
+    //                 detail: name
+    //                 },
+    //                 {
+    //                   info: 'Phone',
+    //                   detail: phone
+    //                 },
+    //                 {
+    //                   info: 'Gender',
+    //                   detail: gender
+    //                 },
+    //                 {
+    //                   info: 'Job',
+    //                   detail: job
+    //                 },
+    //                 {
+    //                   info: 'University',
+    //                   detail: university
+    //                 },
     mounted(){
       this.setUserInfo()
       this.getJobs()
@@ -161,7 +246,26 @@ import Qs from 'qs'
         user = JSON.parse(user);
         this.imgUrl = user.avatar
         this.uid = user.uid
+        this.name = user.user_name
+        this.phone = user.phone
+        this.email = user.email
+        this.gender = user.gender
+        this.job = user.job
+        this.university = user.university
       },
+
+      handleEditInfo(index, row){
+        this.infoData[index] = true;
+        this.infoData[index] = true;
+        this.$set(this.infoData,row,true)
+        this.$set(this.infoData,row,true)
+      },
+
+      handleSaveInfo(index, row){
+        this.infoData[index] = false;
+        this.infoData[index] = false;
+      },
+
       getOrders(){
         var that = this
         var Params = {user_id: this.uid}
