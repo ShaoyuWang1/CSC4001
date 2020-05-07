@@ -5,7 +5,6 @@ import Homepage from './views/list/homepage.vue'
 import Market from './views/list/Market.vue'
 import WorkPanel from './views/list/WorkPanel.vue'
 // 
-import EditUserInfo from './views/list/editUserInfo.vue'
 import UploadTask from './views/list/uploadTask.vue'
 import Register from "./views/Register";
 
@@ -26,6 +25,7 @@ let routes = [
         path: '/register',
         component: Register,
         name: 'register',
+        hidden: true
     },
     {
         path: '/login',
@@ -67,26 +67,15 @@ let routes = [
             {path: '/panel', component: WorkPanel, name: 'Panel'}
         ]
     },
-    {
-        path: '/',
-        component: Home,
-        name: '更新用户数据',
-        leaf: true,
-        iconCls: 'el-icon-s-platform',
-        children: [
-            {path: '/edit_uinfo', component: EditUserInfo, name: 'editUserInfo'}
-        ],
-        // hidden: true
-    },
 
     {
         path: '/',
         component: Home,
-        name: '更新用户数据',
+        name: 'SubmitJob',
         leaf: true,
-        iconCls: 'el-icon-s-platform',
+        iconCls: 'el-icon-upload2',
         children: [
-            {path: '/upload_task', component: UploadTask, name: 'UploadTask'}
+            {path: '/submit_job', component: UploadTask, name: 'SubmitJob'}
         ],
         // hidden: true
     }

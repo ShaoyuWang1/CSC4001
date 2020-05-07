@@ -1,21 +1,29 @@
 <template>
  <div>
+    <div>
+      <span>{{ori_lang}}   </span>To<span>  {{ore_lang}}</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>fee:{{fee}}</span>
+      <el-divider direction="vertical"></el-divider>
+      <span style="color: #FF0000;">DDL:{{ddl}}</span>
+    </div>
+    <el-divider><i class="el-icon-edit"></i></el-divider>
     <el-row :gutter="40">
         <el-col :span="8">
           <div style="font-size:30px">
-            文本标题:
+            Title:
           </div>
            <div class="tx-title" :style="{'font-size':`${font_size}px`}">
               {{title}}
             </div>
           <div style="font-size:30px">
-            正文:
+            Content:
           </div>
-            <div class="tx-back" :style="{'font-size':`${font_size}px`}">
+            <div class="tx-back wrap" :style="{'font-size':`${font_size}px`}">
               {{content}}
             </div>
             <div class="block">
-              <div>字体大小</div>
+              <div>Font Size</div>
                   <el-slider
                     v-model="font_size"
                     show-input>
@@ -26,7 +34,7 @@
             
             <div class="grid-content">
               <div style="font-size:30px">
-                译后标题:
+                Translated Title:
               </div>
                 <el-input
                     type="textarea"
@@ -35,7 +43,7 @@
                     v-model="translated_title">
                 </el-input>
               <div style="font-size:30px">
-                译后正文:
+                Translated Content:
               </div>
                     <div style="margin: 20px 0; wk-back"></div>
                         <el-input
@@ -77,6 +85,9 @@ import Qs from 'qs'
 export default {
   data() {
     return {
+      fee:'',
+      ddl:null,date:null,
+      ori_lang:'EN',ore_lang:'',
       title:'',
       content:'',
       translated_content: '',
@@ -112,7 +123,10 @@ export default {
           });
     },
     complete(){
-
+        paras = {
+        "uid": 2,
+        "oid": 1
+        }
     },
     handleClick(a){
       console.log(a)
@@ -144,11 +158,18 @@ export default {
                 type: 'error'
               });
             } else {
-              let {abstract,content,date,ddl,title,translated_title,translated_content} = one_job
+              let {ori_lang, ore_lang, abstract,content,date,ddl,fee,title,translated_title,translated_content} = one_job
               this.title = title
               this.content = content
               this.translated_title = translated_title
               this.translated_content = translated_content
+
+              this.fee = fee
+              this.ddl = ddl
+              this.date = date
+
+              this.ori_lang = ori_lang
+              this.ore_lang = ore_lang
             }
           });
       },
@@ -157,6 +178,7 @@ export default {
 </script>
 
 <style scoped>
+                     
   .el-row {
     margin-bottom: 20px;
     &:last-child {
@@ -188,12 +210,16 @@ export default {
   text-align:center;
 }
 .tx-back{
-    height: 400px;
+    height: 100%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
 }
 
 .wk-back{
-    height: 400px;
+    height: 100%;
     
+}
+
+.wrap{
+  word-break:break-all; width:100%;
 }
 </style>

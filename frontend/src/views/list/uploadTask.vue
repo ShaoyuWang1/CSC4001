@@ -1,30 +1,28 @@
 <template>
 	<div>
     <div>
-        <el-form ref="form" :model="form" label-width="80px">
-  <el-form-item label="文本标题">
-    <el-input v-model="form.title"></el-input>
-  </el-form-item>
-  <el-form-item label="文本初始语言">
-    <el-select v-model="form.ori_lang" placeholder="文本语言">
-      <el-option label="英语" value="ENG"></el-option>
-      <el-option label="中文" value="CN"></el-option>
+        <el-form ref="form" :model="form" label-width="120px">
+  
+  <el-form-item label="Original Language">
+    <el-select v-model="form.ori_lang" placeholder="Original Language">
+      <el-option label="EN" value="EN"></el-option>
+      <el-option label="CN" value="CN"></el-option>
     </el-select>
   </el-form-item>
-  <el-form-item label="目标语言">
-    <el-select v-model="form.ore_lang" placeholder="文本语言">
-      <el-option label="英语" value="ENG"></el-option>
-      <el-option label="中文" value="CN"></el-option>
+  <el-form-item label="Oriented Language">
+    <el-select v-model="form.ore_lang" placeholder="Oriented Language">
+      <el-option label="EN" value="EN"></el-option>
+      <el-option label="CN" value="CN"></el-option>
     </el-select>
   </el-form-item>
   <el-form-item label="DDL">
     <el-date-picker
       v-model="form.ddl"
       type="datetime"
-      placeholder="选择日期时间">
+      placeholder="Choose Suitable DDl">
     </el-date-picker>
   </el-form-item>
-  <el-form-item label="翻译文本标签">
+  <el-form-item label="Customized Tags">
     <el-tag
   :key="tag"
   v-for="tag in dynamicTags"
@@ -45,11 +43,13 @@
 </el-input>
 <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
 </el-form-item>
-  
-  <el-form-item label="翻译内容">
+  <el-form-item label="Title">
+    <el-input v-model="form.title"></el-input>
+  </el-form-item>
+  <el-form-item label="Content">
     <el-input type="textarea"
-            :autosize="{ minRows: 2, maxRows: 30}"
-            placeholder="请输入内容"
+            :autosize="{ minRows: 5, maxRows: 30}"
+            placeholder="Place Content here, using txt file or type."
             v-model="form.content"></el-input>
     <el-upload
         :auto-upload="false"
@@ -57,20 +57,22 @@
         ref="upload"
         class="upload-demo"
         accept="*/*">
-    <el-button slot="trigger" size="mini" type="success" plain>选取文件</el-button>
-    <i slot="tip" class="el-upload__tip el-icon-info">请选取文本文件</i>
+    <el-button slot="trigger" size="mini" type="success" plain>Choose File</el-button>
+    <i slot="tip" class="el-upload__tip el-icon-info">Please Choose .txt file</i>
     </el-upload>
-        字数: {{form.content.length}}
+        Number of words: {{form.content.length}}
   </el-form-item>
-  <el-form-item label="翻译概要">
+  <el-form-item label="Abstract">
     <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  v-model="form.abstract"></el-input>
   </el-form-item>
-  <el-form-item label="费用">
-    <el-input  :disabled="true" v-model="form.fee"></el-input>
+  <el-form-item label="Fee">
+    <el-tooltip class="item" effect="dark" content="6 dollars.100 words" placement="top-start">
+      <el-input  :disabled="true" v-model="form.fee"></el-input>
+    </el-tooltip>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="onSubmit">立即创建</el-button>
-    <el-button>取消</el-button>
+    <el-button type="primary" @click="onSubmit">Create An Order!</el-button>
+    <el-button @click="resetPage()">Reset</el-button>
   </el-form-item>
 </el-form>
     </div>
@@ -85,7 +87,17 @@ import Qs from 'qs'
 		name: 'importTxt',
 		data() {
 			return {
-                files: null, //文件列表,
+                files: null,
+                form_o: {
+                title: '',
+                ori_lang: '',
+                ore_lang: '',
+                ddl: '',
+                tags: [],
+                content: '',
+                abstract: '',
+                fee:0,
+                },
                 form: {
                 title: '',
                 ori_lang: '',
@@ -96,13 +108,17 @@ import Qs from 'qs'
                 abstract: '',
                 fee:0,
                 },
-                dynamicTags: ['标签一', '标签二', '标签三'],
+                dynamicTags: ['news', 'tourism', 'en'],
                 inputVisible: false,
                 inputValue: ''
             
 			};
 		},
 		methods: {
+      resetPage(){
+        let new_form = {...this.form_o}
+        this.form = new_form;
+      },
       // submit
       onSubmit(){
         var user = sessionStorage.getItem('user');
@@ -118,7 +134,10 @@ import Qs from 'qs'
               this.$message.error(`Server Error`);
             } else {
               if(status_code === 0){
-                this.$message(msg + `, oid:${oid}`);
+                this.$message({
+                  message:msg + `, oid:${oid}`,
+                  type: 'success'
+                });
                 this.$router.push({ name: 'HomePage'})
               }else{
                 this.$message.error(msg);
@@ -228,5 +247,8 @@ import Qs from 'qs'
     width: 90px;
     margin-left: 10px;
     vertical-align: bottom;
+  }
+  .item {
+      margin: 4px;
   }
 </style>

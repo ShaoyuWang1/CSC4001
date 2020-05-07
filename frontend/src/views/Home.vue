@@ -40,7 +40,7 @@
 			<section class="content-container">
 				<div class=" bg-purple-light">
 					<el-col :span="24" class="grid-content">
-						<strong class="title">{{$route.name}}</strong>
+						<!-- <strong class="title">{{$route.name}}</strong> -->
 					</el-col>
 					<el-col :span="24" class="grid-content">
 						<transition name="fade" mode="out-in">

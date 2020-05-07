@@ -32,4 +32,5 @@ export const takeOneOrder = params => {return axios.post(`${base}/takeOneOrder/`
 // create one order
 export const createAnOrder = params => { return axios.post(`${base}/createAnOrder/`, params).then(res => res.data); };
 export const getPostedOrders = params => { return axios.post(`${base}/getPostedOrders/`, params).then(res => res.data); };
+export const completeOneOrder = params => { return axios.post(`${base}/completeOneOrder/`, params).then(res => res.data); };
 

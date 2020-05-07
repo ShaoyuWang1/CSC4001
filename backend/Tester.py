@@ -40,7 +40,7 @@ def testUpdate():
 def testgetOneJob():
     res = r.post(base + 'getOneJob/', {"job_id":3})
     print(res.text)
-testgetOneJob()
+# testgetOneJob()
 
 # def testdeleteOneJob():
 #     res = r.post(base + 'deleteOneJob/', {"job_id": 1})
@@ -56,7 +56,7 @@ def testPostOneJob():
     }
     res = r.post(base + 'postOneJob/', paras)
     print(res.text)
-testPostOneJob()
+# testPostOneJob()
 def testCancelOneJob():
     paras = {'job_id' : 1 }
     res = r.post(base+'cancelOneJob/',paras)
@@ -78,12 +78,12 @@ def testGetAllOrders():
 
 def testGetPostedOrders():
     paras = {
-        'user_id':2,
+        'user_id':1,
 
     }
     res = r.post(base + 'getPostedOrders/', paras)
     print(res.text)
-# testGetPostedOrders()
+testGetPostedOrders()
 
 
 
@@ -127,7 +127,7 @@ def testCompleteOrder():
     res = r.post(base + 'completeOneOrder/', paras)
     print(res.text)
 
-# testCompleteOrder()
+testCompleteOrder()
 
 
 

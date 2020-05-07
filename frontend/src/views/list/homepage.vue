@@ -78,7 +78,7 @@
     @current-change="handleCurrentChange">
     <el-table-column
       prop="date"
-      label="提交/接单日期"
+      label="Accept Date"
       sortable
       width="180"
       column-key="date"
@@ -98,29 +98,28 @@
     </el-table-column>
     <el-table-column
       prop="title"
-      label="标题"
+      label="Title"
       width="120">
     </el-table-column>
     <el-table-column
       prop="abstract"
-      label="内容简略"
+      label="Abstract"
       width="200">
     </el-table-column>
     <el-table-column
       prop="fee"
-      label="费用"
+      label="Fee"
       width="120">
     </el-table-column>
     <el-table-column
       prop="status"
-      label="状态"
+      label="Status"
       width="120">
     </el-table-column>
     <el-table-column
       fixed="right"
-      label="操作">
+      label="Operation">
       <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
         <el-button @click="continue_editing(scope.$index, tableData)" type="text" size="small">继续编辑</el-button>
       </template>
     </el-table-column>
@@ -142,16 +141,6 @@
     highlight-current-row
     @current-change="handleCurrentChange">
     <el-table-column
-      prop="date"
-      label="提交/接单日期"
-      sortable
-      width="180"
-      column-key="date"
-      :filters="[]"
-      :filter-method="filterHandler"
-    >
-    </el-table-column>
-    <el-table-column
       prop="ddl"
       label="DDL"
       sortable
@@ -161,17 +150,47 @@
       :filter-method="filterHandler"
     >
     </el-table-column>
+    <el-table-column
+      prop="title"
+      label="Title"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="abstract"
+      label="Abstract"
+      width="200">
+    </el-table-column>
+    <el-table-column
+      prop="fee"
+      label="Fee"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="order_completed"
+      label="Order Completed?"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="Job_completed"
+      label="Job Completed?"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      fixed="right"
+      label="Operation">
+      <template slot-scope="scope">
+        <el-button @click="handleCheck(scope.row)" type="text" size="small">Check Translated Text</el-button>
+        <el-button @click="completeOrder(scope.$index, orderData)" type="text" size="small">Finish Order</el-button>
+      </template>
+    </el-table-column>
   </el-table>
   <!-- <el-button @click="getJobs()" type="text" size="small">测试一下</el-button> -->
    </el-row>
-    <el-row>
-      <el-button @click="edit_user_info()">更新信息</el-button>
-    </el-row>
 </div>
 </template>
 
 <script>
-import { getAllJobs, getPostedOrders } from '../../api/api';
+import { getAllJobs, getPostedOrders, completeOneOrder } from '../../api/api';
 import Qs from 'qs'
   export default {
 
@@ -204,28 +223,11 @@ import Qs from 'qs'
                   {info:'University', detail: 'The Chinese University of Hong Kong, Shenzhen'},],
       }
     },
-    // {info: 'Name',
-    //                 detail: name
-    //                 },
-    //                 {
-    //                   info: 'Phone',
-    //                   detail: phone
-    //                 },
-    //                 {
-    //                   info: 'Gender',
-    //                   detail: gender
-    //                 },
-    //                 {
-    //                   info: 'Job',
-    //                   detail: job
-    //                 },
-    //                 {
-    //                   info: 'University',
-    //                   detail: university
-    //                 },
+    
     mounted(){
       this.setUserInfo()
       this.getJobs()
+      this.getOrders()
     },
     
     methods: {
@@ -238,8 +240,33 @@ import Qs from 'qs'
       handleCurrentChange(val) {
         this.currentRow = val;
       },
-      continueEditing(id){
-
+      completeOrder(index, data){
+        let oid = data[index].oid
+        let uid = this.uid
+        var Params = {
+          oid: oid,
+          uid: uid
+        }
+        Params = Qs.stringify(Params)
+        
+        completeOneOrder(Params).then(data =>{
+          let { msg, code, orders } = data;
+          // console.log(jobs)
+          if (code !== 200) {
+              this.$message({
+                message: msg,
+                type: 'error'
+              });
+            } else {
+              that.orderData = orders
+              // console.log(jobs)
+            }
+          });
+      },
+      continue_editing(index, data){
+        let jid = data[index].jid
+        // console.log('id', id)
+        this.$router.push({ name: 'Panel', params: { id: jid }})
       },
       setUserInfo(){
         var user = sessionStorage.getItem('user');
@@ -303,9 +330,6 @@ import Qs from 'qs'
               // console.log(jobs)
             }
           });
-      },
-      edit_user_info(){
-        this.$router.push({ name: 'editUserInfo'})
       },
       continue_editing(index, data){
         let jid = data[index].jid

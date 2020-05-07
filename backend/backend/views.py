@@ -159,6 +159,10 @@ def getOneJob(request):
             'translated_content': one_job.translated_content,
             'state':one_job.state,
 
+
+            'ori_lang' : one_job.ori_lang,
+            'ore_lang' : one_job.ore_lang,
+
         }
         return JsonResponse({"code": 200, "msg": 'SUC', "one_job":job_dict,'status_code':0})
     else:
