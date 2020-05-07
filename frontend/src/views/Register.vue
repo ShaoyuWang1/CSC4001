@@ -16,13 +16,13 @@
                     <el-input type="password" v-model="ruleForm.checkPass" placeholder="Repeat Password"
                               autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Sex" prop="region">
+                <el-form-item label="Sex" prop="Sex">
                     <el-select v-model="ruleForm.sex" placeholder="Select sex">
                         <el-option label="Male" value="shanghai"></el-option>
                         <el-option label="Female" value="beijing"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Birthday" required>
+                <el-form-item label="Birthday" prop="Birthday">
                     <el-col :span="11">
                         <el-form-item prop="date1">
                             <el-date-picker type="date" placeholder="Select date" v-model="ruleForm.birthday"
@@ -30,7 +30,7 @@
                         </el-form-item>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="Email" prop="name">
+                <el-form-item label="Email" prop="Email">
                     <el-input v-model="ruleForm.email" placeholder="Enter Mail Address"></el-input>
                 </el-form-item>
                 <el-form-item>
@@ -119,6 +119,9 @@
                             console.log(data);
                             if (code !== 200) {
                                 this.$message.error("Server Error");
+                            } else {
+                                this.$message.success('Register successful')
+                                this.$router.push({path: '/login'});
                             }
                         });
                     } else {
