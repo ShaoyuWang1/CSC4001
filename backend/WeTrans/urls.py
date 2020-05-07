@@ -28,6 +28,8 @@ urlpatterns = [
     path('postOneJob/', views.postOneJob),
     path('getAllJobs/', views.getAllJobs),
     path('cancelOneJob/',views.cancelOneJob),
+    path('completeOneJob/',views.completeOneJob),
+
 
     path('createAnOrder/', views.createAnOrder),
     path('getAllOrders/',views.getAllOrders),
@@ -35,6 +37,8 @@ urlpatterns = [
     path('takeOneOrder/',views.takeOneOrder),
     path('completeOneOrder/',views.completeOneOrder),
     path('cancelOneOrder/',views.cancelOneOrder),
+
+    path('checkTranslatedText/',views.checkTranslatedText),
 
 
     path('login/', views.login),

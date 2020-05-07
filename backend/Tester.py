@@ -43,9 +43,13 @@ def testUpdate():
 def testgetOneJob():
     res = r.post(base + 'getOneJob/', {"job_id": 3})
     print(res.text)
+<<<<<<< HEAD
 
 
 # testgetOneJob()
+=======
+testgetOneJob()
+>>>>>>> 253da35af43b6d4792f1f2dcdf768efbaeb49387
 
 # def testdeleteOneJob():
 #     res = r.post(base + 'deleteOneJob/', {"job_id": 1})
@@ -81,6 +85,16 @@ def testGetallJobs():
 
 # testGetallJobs()
 
+def testCompleteJob():
+
+    paras = {
+        "user_id": 1,
+        "job_id": 4
+    }
+    res = r.post(base + 'completeOneJob/', paras)
+    print(res.text)
+# testCompleteJob()
+
 def testGetAllOrders():
     res = r.post(base + 'getAllOrders/')
     print(res.text)
@@ -95,6 +109,10 @@ def testGetPostedOrders():
     }
     res = r.post(base + 'getPostedOrders/', paras)
     print(res.text)
+<<<<<<< HEAD
+=======
+# testGetPostedOrders()
+>>>>>>> 253da35af43b6d4792f1f2dcdf768efbaeb49387
 
 
 testGetPostedOrders()
@@ -138,12 +156,27 @@ def testTakeOneOrder():
 
 def testCompleteOrder():
     paras = {
-        "uid": 2,
-        "oid": 1
+        "uid": 1,
+        "oid": 16
     }
     res = r.post(base + 'completeOneOrder/', paras)
     print(res.text)
 
+<<<<<<< HEAD
+=======
+# testCompleteOrder()
+
+def testCheckTranslatedText():
+    paras = {
+        "uid": 10,
+        "oid": 7
+    }
+    res = r.post(base + 'checkTranslatedText/', paras)
+    print(res.text)
+
+
+testCheckTranslatedText()
+>>>>>>> 253da35af43b6d4792f1f2dcdf768efbaeb49387
 
 testCompleteOrder()
 

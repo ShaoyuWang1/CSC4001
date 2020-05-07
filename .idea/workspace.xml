@@ -2,22 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2901ff6-bb7c-46a2-83be-796a4c1822ed" name="Default" comment="Add register page">
+      <change afterPath="$PROJECT_DIR$/backend/Frontend/dist/static/js/app.2d58a8bd250203a5da3d.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/Frontend/dist/static/js/app.2d58a8bd250203a5da3d.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/Frontend/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Frontend/dist/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Frontend/dist/static/css/app.6d7fbe4fa4cda3feb188efb214ebcd45.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Frontend/dist/static/css/app.6d7fbe4fa4cda3feb188efb214ebcd45.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Frontend/dist/static/js/app.68d7a78706878735c248.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Frontend/dist/static/js/app.68d7a78706878735c248.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Frontend/dist/static/css/app.d381772885fbc9aee5448435c29124c1.css" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Frontend/dist/static/css/app.d381772885fbc9aee5448435c29124c1.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Frontend/dist/static/css/app.d381772885fbc9aee5448435c29124c1.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Frontend/dist/static/css/app.d381772885fbc9aee5448435c29124c1.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/Frontend/dist/static/js/manifest.2ae2e69a05c33dfc65f8.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Frontend/dist/static/js/manifest.2ae2e69a05c33dfc65f8.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Frontend/dist/static/js/vendor.506344e471e5a47b5c14.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Frontend/dist/static/js/vendor.506344e471e5a47b5c14.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/Tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Tester.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/WeTrans/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/WeTrans/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/backend/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/backend/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/list/WorkPanel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/list/WorkPanel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/list/homepage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/list/homepage.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -66,63 +65,7 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/frontend/src/views/Register.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="99" column="64" selection-start-line="99" selection-start-column="64" selection-end-line="99" selection-end-column="64" />
-              <folding>
-                <element signature="n#style#0;n#h2#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="e#1900#1940#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/views/Login.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-387">
-              <caret line="49" column="4" selection-start-line="49" selection-end-line="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/WeTrans/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="40" column="22" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="22" />
-              <folding>
-                <element signature="e#631#663#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/Tester.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="49">
-              <caret line="21" column="37" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="37" />
-              <folding>
-                <element signature="e#0#20#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/api/api.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="37" column="25" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -196,13 +139,6 @@
               <item name="WeTrans" type="462c0819:PsiDirectoryNode" />
               <item name="frontend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WeTrans" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WeTrans" type="462c0819:PsiDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WeTrans" type="b2602c69:ProjectViewProjectNode" />
@@ -284,9 +220,9 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="npm.dev" />
-      <item itemvalue="npm.build" />
       <item itemvalue="Python.Tester" />
+      <item itemvalue="npm.build" />
+      <item itemvalue="npm.dev" />
     </list>
     <recent_temporary>
       <list>
@@ -318,11 +254,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11968000" />
+    <option name="totallyTimeSpent" value="12137000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1695279" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
