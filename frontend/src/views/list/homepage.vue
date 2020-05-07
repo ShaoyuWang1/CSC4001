@@ -112,15 +112,20 @@
       width="120">
     </el-table-column>
     <el-table-column
-      prop="status"
+      prop="state"
       label="Status"
       width="120">
+      <template slot-scope="scope">
+        <el-tag
+          :type="scope.row.state === -1 ? 'info' : 'success'"
+          disable-transitions>{{scope.row.state === -1 ? 'Completed' : 'On Process'}}</el-tag>
+      </template>
     </el-table-column>
     <el-table-column
       fixed="right"
       label="Operation">
       <template slot-scope="scope">
-        <el-button @click="continue_editing(scope.$index, tableData)" type="text" size="small">继续编辑</el-button>
+        <el-button @click="continue_editing(scope.$index, tableData)" type="text" size="small">Continue Edition</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -169,28 +174,48 @@
       prop="order_completed"
       label="Order Completed?"
       width="120">
+      <template slot-scope="scope">
+        <el-tag
+          :type="scope.row.order_completed !== 1 ? 'info' : 'success'"
+          disable-transitions>{{scope.row.order_completed !== 1 ? 'Completed' : 'Not Completed'}}</el-tag>
+      </template>
     </el-table-column>
     <el-table-column
-      prop="Job_completed"
+      prop="job_completed"
       label="Job Completed?"
       width="120">
+      <template slot-scope="scope">
+        <el-tag
+          :type="scope.row.job_completed !== 0 ? 'info' : 'success'"
+          disable-transitions>{{scope.row.job_completed !== 0 ? 'Completed' : 'Not(Not Taken)'}}</el-tag>
+      </template>
     </el-table-column>
     <el-table-column
       fixed="right"
       label="Operation">
       <template slot-scope="scope">
-        <el-button @click="handleCheck(scope.row)" type="text" size="small">Check Translated Text</el-button>
+        <el-button @click="handleCheck(scope.$index, orderData)" type="text" size="small">Check Translated Text</el-button>
         <el-button @click="completeOrder(scope.$index, orderData)" type="text" size="small">Finish Order</el-button>
       </template>
     </el-table-column>
   </el-table>
   <!-- <el-button @click="getJobs()" type="text" size="small">测试一下</el-button> -->
    </el-row>
+   <el-dialog
+    title="提示"
+    :visible.sync="dialogVisible"
+    width="30%"
+    :before-close="handleClose">
+    <span>{{translated_text}}</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="dialogVisible = false">Confirmed</el-button>
+    </span>
+  </el-dialog>
 </div>
 </template>
 
 <script>
-import { getAllJobs, getPostedOrders, completeOneOrder } from '../../api/api';
+import { getAllJobs, getPostedOrders, completeOneOrder, checkTranslatedText } from '../../api/api';
 import Qs from 'qs'
   export default {
 
@@ -214,6 +239,7 @@ import Qs from 'qs'
         email: null,
         gender: null,
         job: null,
+        dialogVisible: false,
         university: null,
         infoData: [{info:'Name', detail: 'admin'},
                   {info:'Phone', detail: '13682129982'},
@@ -231,6 +257,43 @@ import Qs from 'qs'
     },
     
     methods: {
+      handleClose(done) {
+        this.$confirm('Confirm Closed？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
+      handleCheck(index, data) {
+        let oid = data[index].oid
+        let uid = this.uid
+        let paras = {
+        "uid": uid,
+        "oid": oid
+        }
+        paras = Qs.stringify(paras)
+        
+        checkTranslatedText(paras).then(data =>{
+          let { msg, code, status_code, translated_text} = data;
+          // console.log(jobs)
+          if (code !== 200) {
+              this.$message({
+                message: msg,
+                type: 'error'
+              });
+            } else {
+              if( status_code == 1){
+                this.$message({
+                message: msg,
+                type: 'error'
+                });
+              }else{
+                this.translated_text = translated_text;
+                this.dialogVisible = true
+              }
+            }
+          });
+      },
       handleClick(row) {
         console.log(row);
       },

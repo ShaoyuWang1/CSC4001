@@ -40,7 +40,7 @@ def testUpdate():
 def testgetOneJob():
     res = r.post(base + 'getOneJob/', {"job_id":3})
     print(res.text)
-# testgetOneJob()
+testgetOneJob()
 
 # def testdeleteOneJob():
 #     res = r.post(base + 'deleteOneJob/', {"job_id": 1})
@@ -147,7 +147,7 @@ def testCheckTranslatedText():
     print(res.text)
 
 
-# testCheckTranslatedText()
+testCheckTranslatedText()
 
 
 

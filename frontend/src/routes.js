@@ -71,11 +71,11 @@ let routes = [
     {
         path: '/',
         component: Home,
-        name: 'SubmitJob',
+        name: 'SubmitOrder',
         leaf: true,
         iconCls: 'el-icon-upload2',
         children: [
-            {path: '/submit_job', component: UploadTask, name: 'SubmitJob'}
+            {path: '/submit_order', component: UploadTask, name: 'SubmitOrder'}
         ],
         // hidden: true
     }

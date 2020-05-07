@@ -53,9 +53,9 @@
                         v-model="translated_content">
                     </el-input>
             <el-row>
-                <el-button @click="save()" type="primary" icon="el-icon-upload">保存</el-button>
-                <el-button @click="complete()" type="primary" icon="el-icon-upload">完成翻译</el-button>
-                <el-button @click="clear()" type="primary" icon="el-icon-search">清屏</el-button>
+                <el-button @click="save()" type="primary" icon="el-icon-upload">Save</el-button>
+                <el-button @click="complete()" type="primary" icon="el-icon-upload">Complete Translation</el-button>
+                <el-button @click="clear()" type="primary" icon="el-icon-search">Clear</el-button>
                 <!-- <el-dropdown split-button type="primary" @click="handleClick">
                       机器翻译
                       <el-dropdown-menu slot="dropdown">
@@ -79,7 +79,7 @@
 
 
 <script>
-import { getOneJob, postOneJob } from '../../api/api';
+import { getOneJob, postOneJob, completeOneJob } from '../../api/api';
 // import translate from 'google-translate-api'
 import Qs from 'qs'
 export default {
@@ -118,15 +118,41 @@ export default {
                 type: 'error'
               });
             } else {
-                this.$message(msg);
+              this.$message({
+                message: msg,
+                type: 'success'
+              });
             }
           });
     },
     complete(){
-        paras = {
-        "uid": 2,
-        "oid": 1
+        let paras = {
+          "user_id": this.uid,
+          "job_id": this.jid
         }
+        paras = Qs.stringify(paras)
+        completeOneJob(paras).then(data =>{
+          let {code, msg, status_code} = data;
+          if (code !== 200) {
+              this.$message({
+                message: msg,
+                type: 'error'
+              });
+            } else {
+              if (status_code == 1){
+                this.$message({
+                  message: msg,
+                  type: 'error'
+                });
+              }else{
+                this.$message({
+                  message: msg,
+                  type: 'success'
+                });
+                this.$router.push({ name: 'HomePage'})
+              }
+            }
+        })
     },
     handleClick(a){
       console.log(a)
@@ -158,7 +184,7 @@ export default {
                 type: 'error'
               });
             } else {
-              let {ori_lang, ore_lang, abstract,content,date,ddl,fee,title,translated_title,translated_content} = one_job
+              let {jid, uid, ori_lang, ore_lang, abstract,content,date,ddl,fee,title,translated_title,translated_content} = one_job
               this.title = title
               this.content = content
               this.translated_title = translated_title
@@ -170,6 +196,9 @@ export default {
 
               this.ori_lang = ori_lang
               this.ore_lang = ore_lang
+
+              this.jid = jid
+              this.uid = uid
             }
           });
       },
