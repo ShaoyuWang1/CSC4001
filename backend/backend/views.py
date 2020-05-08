@@ -223,7 +223,7 @@ def getAllJobs(request):
 def getAllOrders(request):
     available_order_list = Orders.objects.filter(available=1)
     ord_list = list(available_order_list.values())
-    print(ord_list)
+    # print(ord_list)
     # change tags
     for order in ord_list:
         order['tags'] = order['tags'].split(';')
