@@ -399,10 +399,10 @@ def cancelOneJob(request):
 
 @csrf_exempt
 def cancelOneOrder(request):
-    order_id = request.POST.get('order_id')
+    order_id = request.POST.get('oid')
+    print(order_id)
     order_list = Orders.objects.filter(oid=order_id)
     try:
-
         one_order = order_list[0]
     except:
         one_order = False

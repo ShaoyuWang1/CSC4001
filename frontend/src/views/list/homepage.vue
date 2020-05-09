@@ -207,6 +207,9 @@
                         <el-button @click="completeOrder(scope.$index, orderData)" type="text" size="small">Finish
                             Order
                         </el-button>
+                        <el-button @click="cancelOrder(scope.$index, orderData)" type="text" size="small">Cancel
+                            Order
+                        </el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -226,7 +229,14 @@
 </template>
 
 <script>
-    import {getAllJobs, getPostedOrders, completeOneOrder, checkTranslatedText, updateUserInfo} from '../../api/api';
+    import {
+        getAllJobs,
+        getPostedOrders,
+        completeOneOrder,
+        checkTranslatedText,
+        updateUserInfo,
+        cancelOneOrder
+    } from '../../api/api';
     import Qs from 'qs'
 
     export default {
@@ -324,10 +334,33 @@
                     uid: uid
                 }
                 Params = Qs.stringify(Params)
-
+                var that = this
                 completeOneOrder(Params).then(data => {
                     let {msg, code, orders} = data;
                     // console.log(jobs)
+                    if (code !== 200) {
+                        this.$message({
+                            message: msg,
+                            type: 'error'
+                        });
+                    } else {
+                        that.orderData = orders
+                        // console.log(jobs)
+                    }
+                });
+            },
+            cancelOrder(index, data){
+                let oid = data[index].oid
+                let uid = this.uid;
+                var Params = {
+                    oid: oid,
+                    uid: uid
+                }
+                Params = Qs.stringify(Params);
+                console.log(Params);
+                var that = this;
+                cancelOneOrder(Params).then(data => {
+                    let {msg, code, orders} = data;
                     if (code !== 200) {
                         this.$message({
                             message: msg,
