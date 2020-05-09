@@ -155,7 +155,7 @@ def testCompleteOrder():
     res = r.post(base + 'completeOneOrder/', paras)
     print(res.text)
 
-# testCompleteOrder()
+testCompleteOrder()
 
 def testCheckTranslatedText():
     paras = {
