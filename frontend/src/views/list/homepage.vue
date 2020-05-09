@@ -2,30 +2,29 @@
     <div>
         <el-row>
             <el-row>
-                <el-upload
-                        class="avatar-uploader"
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :show-file-list="false"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                    <img v-if="imgUrl" :src="imgUrl" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-                <el-upload
-                        class="avatar-uploader"
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :show-file-list="false"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                    <el-button type="primary">Click to Change</el-button>
-                </el-upload>
-            </el-row>
-
-            <!-- <el-button type="primary" icon="el-icon-edit" @click.stop="handleEditInfo">Edit</el-button>
-            <el-button type="primary" icon="el-icon-setting" @click.stop="handleSaveInfo">Save</el-button> -->
-
-        </el-row>
-        <el-row>
+                <el-col :span="6">
+                    <div class="grid-content" style="margin-top:10px;">
+                        <el-upload
+                            class="avatar-uploader"
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                        <img v-if="imgUrl" :src="imgUrl" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                        <el-upload
+                            class="avatar-uploader"
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                        </el-upload>
+                    </div>
+                </el-col>
+                <el-col :span="12">
+                    <div class="grid-content">
+                        <el-row>
             <p style="font-size:18px;">Basic Information</p>
         </el-row>
 
@@ -35,34 +34,41 @@
         </el-row>
         <el-row>
             <el-table
-                    :data="infoData"
+                    :data="edit_info"
                     style="width: 100%">
                 <el-table-column
                         prop="info"
-                        label="Information"
+                        label="Field"
                         width="180">
                 </el-table-column>
                 <el-table-column
                         prop="detail"
                         label="Detail"
                         width="180">
+                        <template slot-scope="scope">
+                            <el-input size="small" v-model="scope.row.detail" placeholder="" @change="handleEdit(scope.$index, edit_info)"></el-input>
+                        </template>
                 </el-table-column>
                 <el-table-column
-                        label="Operations">
-                    <template slot-scope="scope">
+                        label="Operations"
+                        >
+                    <template>
                         <el-button
                                 size="mini"
-                                @click="handleEditInfo(scope.$index, scope.row)">Edit
-                        </el-button>
-                        <el-button
-                                size="mini"
-                                type="success"
-                                @click="handleSaveInfo(scope.$index, scope.row)">Save
+                                type="success" :disabled="!edited"
+                                @click="handleSaveInfo()">Save
                         </el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </el-row>
+                    </div>
+                </el-col>
+                
+            </el-row>
+
+        </el-row>
+        
 
 
         <el-row>
@@ -116,17 +122,18 @@
                 <el-table-column
                         prop="state"
                         label="Status"
-                        width="120">
+                        width="200">
                     <template slot-scope="scope">
                         <el-tag
-                                :type="scope.row.state === -1 ? 'info' : 'success'"
-                                disable-transitions>{{scope.row.state === -1 ? 'Completed' : 'On Process'}}
+                                :type="job_status(scope.row.state).type"
+                                disable-transitions>{{job_status(scope.row.state).msg}}
                         </el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column
                         fixed="right"
-                        label="Operation">
+                        label="Operation"
+                        width="180">
                     <template slot-scope="scope">
                         <el-button @click="continue_editing(scope.$index, tableData)" type="text" size="small">Continue
                             Edition
@@ -176,30 +183,31 @@
                         width="120">
                 </el-table-column>
                 <el-table-column
-                        prop="order_completed"
+                        prop="available"
                         label="Order Completed?"
-                        width="120">
+                        width="200">
                     <template slot-scope="scope">
                         <el-tag
-                                :type="scope.row.order_completed !== 1 ? 'info' : 'success'"
-                                disable-transitions>{{scope.row.order_completed !== 1 ? 'Completed' : 'Not Completed'}}
+                                :type="scope.row.available === 1 ? 'warning' : 'success'"
+                                disable-transitions>{{scope.row.available === 1 ? 'No Translator Yet' : 'Completed(Canceled)'}}
                         </el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column
                         prop="job_completed"
                         label="Job Completed?"
-                        width="120">
+                        width="200">
                     <template slot-scope="scope">
                         <el-tag
-                                :type="scope.row.job_completed !== 0 ? 'info' : 'success'"
-                                disable-transitions>{{scope.row.job_completed !== 0 ? 'Completed' : 'Not(Not Taken)'}}
+                                :type="job_status(scope.row.job_completed).type"
+                                disable-transitions>{{job_status(scope.row.job_completed).msg}}
                         </el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column
                         fixed="right"
-                        label="Operation">
+                        label="Operation"
+                        width="200">
                     <template slot-scope="scope">
                         <el-button @click="handleCheck(scope.$index, orderData)" type="text" size="small">Check
                             Translated Text
@@ -243,6 +251,7 @@
 
         data() {
             return {
+                edited:false,
                 tableData: [],
                 orderData: [],
                 currentRow: null,
@@ -256,19 +265,8 @@
                     {color: '#6f7ad3', percentage: 100}
                 ],
                 imgUrl: null,
-                name: null,
-                phone: null,
-                email: null,
-                gender: null,
-                job: null,
                 dialogVisible: false,
-                university: null,
-                infoData: [{info: 'Name', detail: 'admin'},
-                    {info: 'Phone', detail: '13682129982'},
-                    {info: 'Email', detail: '111010010@link.cuhk.edu.cn'},
-                    {info: 'Gender', detail: 'male'},
-                    {info: 'Job', detail: 'student'},
-                    {info: 'University', detail: 'The Chinese University of Hong Kong, Shenzhen'},],
+                
             }
         },
 
@@ -279,6 +277,28 @@
         },
 
         methods: {
+
+            job_status(status){
+              let tag_type = null
+              let msg = null
+              if(status === 1){
+                // completed
+                msg = "Job Completed"
+                tag_type = "success" 
+              }else if(status === -1){
+                // canceled
+                msg = "Job Canceled"
+                tag_type = "danger" 
+              }else if(status === 0){
+                // intranslation
+                msg = "In Translation"
+                tag_type = "warning" 
+              }else{
+                msg = "Not Taken"
+                tag_type = "info" 
+              }
+              return {msg:msg, type:tag_type}
+            },
             handleClose(done) {
                 this.$confirm('Confirm Closed？')
                     .then(_ => {
@@ -336,7 +356,7 @@
                 Params = Qs.stringify(Params)
                 var that = this
                 completeOneOrder(Params).then(data => {
-                    let {msg, code, orders} = data;
+                    let {msg, status_code, code, orders} = data;
                     // console.log(jobs)
                     if (code !== 200) {
                         this.$message({
@@ -344,8 +364,18 @@
                             type: 'error'
                         });
                     } else {
-                        that.orderData = orders
-                        // console.log(jobs)
+                        if(status_code === 1){
+                            this.$message({
+                            message: msg,
+                            type: 'error'
+                            });
+                        }else{
+                            this.$message({
+                            message: msg,
+                            type: 'success'
+                            });
+                            this.$router.go(0)
+                        }
                     }
                 });
             },
@@ -360,15 +390,25 @@
                 console.log(Params);
                 var that = this;
                 cancelOneOrder(Params).then(data => {
-                    let {msg, code, orders} = data;
+                    let {msg, status_code, code} = data;
                     if (code !== 200) {
                         this.$message({
                             message: msg,
                             type: 'error'
                         });
                     } else {
-                        that.orderData = orders
-                        // console.log(jobs)
+                        if(status_code === 1){
+                            this.$message({
+                            message: msg,
+                            type: 'error'
+                            });
+                        }else{
+                            this.$message({
+                            message: msg,
+                            type: 'success'
+                            });
+                            this.$router.go(0)
+                        }
                     }
                 });
             },
@@ -378,47 +418,64 @@
                 this.$router.push({name: 'Panel', params: {id: jid}})
             },
             setUserInfo() {
-                var user = sessionStorage.getItem('user');
-                user = JSON.parse(user);
+                // read info from login
+                var user = sessionStorage.getItem('user')
+                user = JSON.parse(user)
+                this.user = user
+                // not editable
                 this.imgUrl = user.avatar
                 this.uid = user.uid
-                this.name = user.user_name
-                this.phone = user.phone
-                this.email = user.email
-                this.gender = user.gender
-                this.job = user.job
-                this.university = user.university
-                var updateParams = {
-                    name: this.name,
-                    phone: this.phone,
-                    email: this.email,
-                    gender: this.gender,
-                    job: this.job,
-                    university: this.university
+                this.user_name = user.user_name
+                // editable
+                let email = user.email
+                let sex = user.sex
+                let age = user.age
+
+                this.edit_info = [
+                    {'info':"email", "detail":email},
+                    {'info':"sex", "detail":sex},
+                    {'info':"age", "detail":age},
+                ]
+
+            },
+
+            handleEdit(index, data) {
+                this.edited = true
+            },
+
+            handleSaveInfo() {
+                this.edited = false
+                let i = null
+                for(i in this.edit_info){
+                    let detail = i.detail
+                    let field = i.info
+                    // update
+                    this.user.field = detail
                 }
-                updateParams = Qs.stringify(updateParams)
-                console.log(updateParams)
-                updateUserInfo(updateParams).then(data => {
-                    let {msg, code, status_code} = data;
-                    console.log(data);
+                let param = {...this.user}
+                param = Qs.stringify(param)
+                updateUserInfo(param).then(data =>{
+                    let {msg, status_code, code} = data;
                     if (code !== 200) {
-                        this.$message.error("Server Error");
+                        this.$message({
+                            message: msg,
+                            type: 'error'
+                        });
                     } else {
-                        this.$message.success('Edit personal info successful')
+                        if(status_code === 1){
+                            this.$message({
+                            message: msg,
+                            type: 'error'
+                            });
+                        }else{
+                            this.$message({
+                            message: msg,
+                            type: 'success'
+                            });
+                            this.$router.go(0)
+                        }
                     }
-                });
-            },
-
-            handleEditInfo(index, row) {
-                this.infoData[index] = true;
-                this.infoData[index] = true;
-                this.$set(this.infoData, row, true)
-                this.$set(this.infoData, row, true)
-            },
-
-            handleSaveInfo(index, row) {
-                this.infoData[index] = false;
-                this.infoData[index] = false;
+                })
             },
 
             getOrders() {
@@ -461,7 +518,6 @@
             },
             continue_editing(index, data) {
                 let jid = data[index].jid
-                // console.log('id', id)
                 this.$router.push({name: 'Panel', params: {id: jid}})
             },
             filterHandler(value, row, column) {
@@ -508,15 +564,15 @@
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
-        width: 178px;
-        height: 178px;
-        line-height: 178px;
+        width: 250px;
+        height: 250px;
+        line-height: 250px;
         text-align: center;
     }
 
     .avatar {
-        width: 178px;
-        height: 178px;
+        width: 250px;
+        height: 250px;
         display: block;
     }
 

@@ -65,7 +65,7 @@ let routes = [
         iconCls: 'el-icon-s-platform',
         children: [
             {path: '/panel', component: WorkPanel, name: 'Panel'}
-        ]
+        ],
     },
 
     {

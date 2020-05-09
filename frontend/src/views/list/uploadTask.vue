@@ -50,7 +50,7 @@
     <el-input type="textarea"
             :autosize="{ minRows: 5, maxRows: 30}"
             placeholder="Place Content here, using txt file or type."
-            v-model="form.content"></el-input>
+            v-model="form.content" @input="cal_fee()"></el-input>
     <el-upload
         :auto-upload="false"
         :on-change="elInFile"
@@ -66,7 +66,7 @@
     <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  v-model="form.abstract"></el-input>
   </el-form-item>
   <el-form-item label="Fee">
-    <el-tooltip class="item" effect="dark" content="6 dollars.100 words" placement="top-start">
+    <el-tooltip class="item" effect="dark" content="6 dollars per 10 words" placement="top-start">
       <el-input  :disabled="true" v-model="form.fee"></el-input>
     </el-tooltip>
   </el-form-item>
@@ -166,8 +166,9 @@ import Qs from 'qs'
         this.inputValue = '';
       },
       // how much per 100 words
-      cal_fee(num){
-          this.form.fee = 0.06 * num
+      cal_fee(){
+          let num = this.form.content.length
+          this.form.fee = 0.6 * num
       },
 			/**
 			 * input-file调用此函数时，默认传入"$event"
@@ -199,11 +200,11 @@ import Qs from 'qs'
                     // console.log('文件内容：', cont);
                     this.form.content += '\n'
                     this.form.content += cont;
-                    this.cal_fee(this.form.content.length)
+                    this.cal_fee()
 				};
 				rd.readAsBinaryString(f);
 			}
-		},
+    },
 		beforeCreate() {
 			/**
 			 * 读取文件（自定义函数）

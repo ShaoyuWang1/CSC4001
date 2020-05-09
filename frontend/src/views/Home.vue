@@ -2,7 +2,7 @@
     <el-row class="container">
         <el-col :span="24" class="header">
 			<el-col :span="18" class="logo" >
-                {{sysUserName + "'s  " + sysName}}
+                {{sysName + sysUserName}}
 			</el-col>
 			<el-col :span="4" class="userinfo">
 				<el-dropdown trigger="hover">
@@ -57,7 +57,7 @@
 export default {
     data() {
 			return {
-				sysName:'WorkPanel',
+				sysName:'Welcome, ',
 				sysUserName: '',
 				sysUserAvatar: '',
 				form: {
@@ -93,7 +93,7 @@ export default {
 			var user = sessionStorage.getItem('user');
 			if (user) {
 				user = JSON.parse(user);
-				this.sysUserName = user.name || '';
+				this.sysUserName = user.user_name || '';
 				this.sysUserAvatar = user.avatar || '';
 			}
 
