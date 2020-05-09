@@ -94,19 +94,13 @@ def updateUserInfo(request):
             one_user.sex = request.POST.get('sex', one_user.sex)
             one_user.age = request.POST.get('age', one_user.age)
             one_user.avatar = request.POST.get('avatar', one_user.age)
-
-            user_list_2 = User.objects.filter(email=email)
-
-            try:
-                another_user = user_list_2[0]
-            except:
-                another_user = False
-
-            if another_user:
-                if another_user.email != one_user.email:
-                    return JsonResponse({"code": 200, 'msg': 'update info failed, email exist', "status_code": 1})
-
             one_user.email = request.POST.get('email', one_user.email)
+
+
+
+
+
+
             one_user.save()
             user_dict = {
                 'uid': one_user.uid,
