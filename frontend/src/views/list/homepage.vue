@@ -46,7 +46,7 @@
                         label="Detail"
                         width="180">
                         <template slot-scope="scope">
-                            <el-input size="small" v-model="scope.row.detail" placeholder="" @change="handleEdit(scope.$index, edit_info)"></el-input>
+                            <el-input size="small" v-model="scope.row.detail" placeholder="" @input="handleEdit(scope.$index, edit_info)"></el-input>
                         </template>
                 </el-table-column>
                 <el-table-column
@@ -264,6 +264,11 @@
                     {color: '#1989fa', percentage: 80},
                     {color: '#6f7ad3', percentage: 100}
                 ],
+                edit_info:[
+                    {info:"email", detail:""},
+                    {info:"sex", detail:""},
+                    {info:"age", detail:""},
+                ],
                 imgUrl: null,
                 dialogVisible: false,
                 
@@ -431,28 +436,26 @@
                 let sex = user.sex
                 let age = user.age
 
-                this.edit_info = [
-                    {'info':"email", "detail":email},
-                    {'info':"sex", "detail":sex},
-                    {'info':"age", "detail":age},
-                ]
+                this.edit_info[0].detail = email
+                this.edit_info[1].detail = sex
+                this.edit_info[2].detail = age
 
             },
 
             handleEdit(index, data) {
                 this.edited = true
+                // console.log(this.edit_info)
             },
 
             handleSaveInfo() {
                 this.edited = false
-                let i = null
-                for(i in this.edit_info){
-                    let detail = i.detail
-                    let field = i.info
-                    // update
-                    this.user.field = detail
-                }
+
+                this.user.email = this.edit_info[0].detail
+                this.user.sex = this.edit_info[1].detail
+                this.user.age = this.edit_info[2].detail
+
                 let param = {...this.user}
+                sessionStorage.setItem('user', JSON.stringify(this.user));
                 param = Qs.stringify(param)
                 updateUserInfo(param).then(data =>{
                     let {msg, status_code, code} = data;
@@ -472,7 +475,7 @@
                             message: msg,
                             type: 'success'
                             });
-                            this.$router.go(0)
+                            // this.$router.go(0)
                         }
                     }
                 })
