@@ -417,8 +417,7 @@ def cancelOneOrder(request):
             if type(one_order.jid) == int:
                 return JsonResponse(
                     {"code": 200, "msg": 'this order has already been taken, you can not cancel it', 'status_code': 1})
-        if one_order.order_completed == 1:
-            return JsonResponse({"code": 200, "msg": 'this order has already been finished', 'status_code': 1})
+
         one_order.order_completed = -1
         one_order.available = 0
         one_order.save()
