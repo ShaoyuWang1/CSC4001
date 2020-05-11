@@ -29,7 +29,10 @@
           <el-card class="box-card" shadow="hover">
           <div slot="header" class="clearfix">
               <span class="class01">{{card.title}}</span>
-              <el-popconfirm title="Sure to take the order？" @onConfirm = "onConfirm(card.oid)">
+              <el-popconfirm title="Sure to take the order？" 
+              @onConfirm = "onConfirm(card.oid)"
+              confirmButtonText='Yes!'
+              cancelButtonText='Cancel'>
                 <el-button slot="reference" style="float: right; padding: 3px 0" type="text">TakeIt!</el-button>
               </el-popconfirm>
           </div>
