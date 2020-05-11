@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path
 import xadmin
 from django.views.generic import TemplateView
-
+from django.conf.urls.static import static
+from django.conf import settings
 #
 from backend import views
 
@@ -49,5 +50,7 @@ urlpatterns = [
 
     path('getAllUserInfo/', views.getAllUserInfo),
 
+    path('getUserBalance/', views.getUserBalance)
 
-]
+
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -62,6 +62,15 @@
                 </el-table-column>
             </el-table>
         </el-row>
+        <el-row>
+            <el-alert
+                :title="`Balance:${balance}`"
+                type="warning"
+                center
+                show-icon>
+            </el-alert>
+           
+        </el-row>
                     </div>
                 </el-col>
                 
@@ -183,13 +192,13 @@
                         width="120">
                 </el-table-column>
                 <el-table-column
-                        prop="available"
+                        prop="order_completed"
                         label="Order Completed?"
                         width="200">
                     <template slot-scope="scope">
                         <el-tag
-                                :type="scope.row.available === 1 ? 'warning' : 'success'"
-                                disable-transitions>{{scope.row.available === 1 ? 'No Translator Yet' : 'Completed(Canceled)'}}
+                                :type="scope.row.order_completed !== 1 ? 'warning' : 'success'"
+                                disable-transitions>{{scope.row.order_completed !== 1 ? 'On Going' : 'Completed(Canceled)'}}
                         </el-tag>
                     </template>
                 </el-table-column>
@@ -243,7 +252,8 @@
         completeOneOrder,
         checkTranslatedText,
         updateUserInfo,
-        cancelOneOrder
+        cancelOneOrder,
+        getUserBalance
     } from '../../api/api';
     import Qs from 'qs'
 
@@ -279,10 +289,36 @@
             this.setUserInfo()
             this.getJobs()
             this.getOrders()
+            this.getnewUserBalance()
         },
 
         methods: {
-
+            getnewUserBalance(){
+                let uid = this.uid
+                let paras = {
+                    "uid": uid,
+                }
+                paras = Qs.stringify(paras)
+                getUserBalance(paras).then(data => {
+                    let {msg, code, status_code, balance} = data;
+                    // console.log(jobs)
+                    if (code !== 200) {
+                        this.$message({
+                            message: msg,
+                            type: 'error'
+                        });
+                    } else {
+                        if (status_code == 1) {
+                            this.$message({
+                                message: msg,
+                                type: 'error'
+                            });
+                        } else {
+                            this.balance = balance;
+                        }
+                    }
+                });
+            },
             job_status(status){
               let tag_type = null
               let msg = null
@@ -379,6 +415,7 @@
                             message: msg,
                             type: 'success'
                             });
+                            this.getnewUserBalance()
                             this.$router.go(0)
                         }
                     }
@@ -435,7 +472,6 @@
                 let email = user.email
                 let sex = user.sex
                 let age = user.age
-
                 this.edit_info[0].detail = email
                 this.edit_info[1].detail = sex
                 this.edit_info[2].detail = age

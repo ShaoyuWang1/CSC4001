@@ -47,3 +47,7 @@ export const updateUserInfo = params => { return axios.post(`${base}/updateUserI
 
 // cancel one order
 export const cancelOneOrder = params => { return axios.post(`${base}/cancelOneOrder/`, params).then(res => res.data); };
+
+
+
+export const getUserBalance = params => { return axios.post(`${base}/getUserBalance/`, params).then(res => res.data); };

@@ -74,6 +74,15 @@ def login(request):
     else:
         return JsonResponse({"code": 200, "msg": 'login failed, no such user', "status_code": 1})
 
+@csrf_exempt
+def getUserBalance(request):
+    uid = request.POST.get('uid')
+    user_list = User.objects.filter(uid=uid)
+    try:
+        one_user = user_list[0]
+        return JsonResponse({"code": 200, 'balance': one_user.balance, "status_code": 0})
+    except:
+        return JsonResponse({"code": 200, 'balance': 0, 'msg': "error in balance retrieving", "status_code": 1})
 
 @csrf_exempt
 def updateUserInfo(request):
@@ -304,16 +313,14 @@ def completeOneOrder(request):
 
     if int(one_order.uid) != int(post_uid):
         return JsonResponse({"code": 200, "msg": 'fail, the order was not posted by this user', 'status_code': 1})
-
+    # 1 is taken, 0 is not taken
     if one_order.available == 1:
         return JsonResponse({"code": 200, "msg": 'fail, this order has not been taken', 'status_code': 1})
-    if one_order.job_completed == 1:
-        return JsonResponse({"code": 200, "msg": 'fail, this order has been completed', 'status_code': 1})
-
+    
     job = Jobs.objects.filter(jid=one_order.jid)[0]
 
-    if job.state == 1:
-        return JsonResponse({"code": 200, "msg": 'fail, this job has been completed', 'status_code': 1})
+    if job.state == 0:
+        return JsonResponse({"code": 200, "msg": 'fail, this job has not completed', 'status_code': 1})
     if job.state == -1:
         return JsonResponse({"code": 200, "msg": 'fail, this job has been given up', 'status_code': 1})
 
@@ -328,9 +335,7 @@ def completeOneOrder(request):
     post_user.save()
     translated_user.balance += one_order.fee
     translated_user.save()
-    job.state = 1
-    job.save()
-    one_order.job_completed = 1
+    one_order.order_completed = 1
     one_order.save()
     return JsonResponse({"code": 200, "msg": 'complete success', 'status_code': 0})
 
@@ -341,9 +346,11 @@ def completeOneJob(request):
 
     job_id = request.POST.get('job_id')
     job_list = Jobs.objects.filter(jid=job_id)
+    ord_list = Orders.objects.filter(jid=job_id)
     try:
 
         one_job = job_list[0]
+        one_order = ord_list[0]
     except:
         one_job = False
     if one_job:
@@ -356,6 +363,9 @@ def completeOneJob(request):
 
         one_job.state = 1
         one_job.save()
+
+        one_order.job_completed = 1
+        one_order.save()
 
         return JsonResponse({"code": 200, "msg": 'Successfully completed the job', 'status_code': 0})
     else:

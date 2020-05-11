@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Jobs
 from .models import User
 from .models import Orders
+from .models import Image
 import xadmin
 # Register your models here.
 class JobAdmin(object):
@@ -43,15 +44,19 @@ class UserAdmin(object):
 class OrderAdmin(object):
     model_icon = 'glyphicon glyphicon-list-alt'
 
-    list_display = ['uid','jid', 'title', 'abstract', 'date', 'ddl', 'content', 'fee', 'tags','available']
+    list_display = ['oid','uid','jid', 'title', 'abstract', 'date', 'ddl', 'content', 'fee', 'tags','available', 'job_completed']
     list_filter = ['date', 'ddl', 'fee']
-    search_fields = ['title', 'abstract', 'date', 'ddl', 'content','tags','available']
+    search_fields = ['title','jid', 'abstract', 'date', 'ddl', 'content','tags','available']
     list_per_page = 20
 
-    list_display_links = ['uid']
+    list_display_links = ['oid']
 
-
+class ImageAdmin(object):
+    model_icon = 'glyphicon glyphicon-list-alt'
+    list_display = ['pid', 'pic']
+    list_per_page = 20
 
 xadmin.site.register(Jobs, JobAdmin)
 xadmin.site.register(User, UserAdmin)
 xadmin.site.register(Orders, OrderAdmin)
+xadmin.site.register(Image, ImageAdmin)

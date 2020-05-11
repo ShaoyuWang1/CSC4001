@@ -30,16 +30,16 @@ class Jobs(models.Model):
 
     jid = models.IntegerField(primary_key=True)
     uid = models.IntegerField()
-    title = models.CharField(max_length=21)
-    abstract = models.CharField(max_length=128)
+    title = models.CharField(max_length=1024)
+    abstract = models.CharField(max_length=1024)
     ori_lang = models.CharField(max_length=128)
     ore_lang = models.CharField(max_length=128)
     date = models.DateTimeField(default = timezone.now)
     ddl = models.DateTimeField()
-    content = models.TextField(max_length=1024)
+    content = models.TextField(max_length=10024)
     fee = models.DecimalField(decimal_places=2, max_digits=10)
-    translated_title = models.TextField(max_length=1024, default="")
-    translated_content = models.TextField(max_length=1024, default="")
+    translated_title = models.TextField(max_length=10024, default="")
+    translated_content = models.TextField(max_length=10024, default="")
     state = models.IntegerField(default=0)
 
 
@@ -57,14 +57,17 @@ class Orders(models.Model):
     job_completed = models.IntegerField(default=0)
     jid = models.IntegerField(null=True)
 
-    title = models.CharField(max_length=21)
-    abstract = models.CharField(max_length=128)
+    title = models.CharField(max_length=1024)
+    abstract = models.CharField(max_length=1024)
     ori_lang = models.CharField(max_length=128)
     ore_lang = models.CharField(max_length=128)
     date = models.DateTimeField(default = timezone.now)
     ddl = models.DateTimeField()
-    content = models.TextField(max_length=1024)
+    content = models.TextField(max_length=11024)
     fee = models.DecimalField(decimal_places=2, max_digits=10)
     tags = models.CharField(max_length=128, default="")
 
 
+class Image(models.Model):
+    pid = models.IntegerField(primary_key=True)
+    pic = models.ImageField(default="default.png", upload_to = 'images/')
